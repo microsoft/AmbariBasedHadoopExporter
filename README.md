@@ -34,7 +34,7 @@ Implementation dependencies:
 1. [Prometheus-net]([https://link](https://github.com/prometheus-net/prometheus-net)) - used to expose the API endpoint for Prometheus.
 2. [Serilog](https://github.com/serilog/serilog-aspnetcore) - for formatting log messages.
 3. [Newtonsoft](https://github.com/JamesNK/Newtonsoft.Json) - for Json parsing.
-4. [FluentAssertions]([https://link](https://github.com/fluentassertions/fluentassertions)), [Moq 4]([https://link](https://github.com/moq/moq4)), [xUnit](https://xunit.github.io/) - for testing.
+4. [FluentAssertions](https://github.com/fluentassertions/fluentassertions), [Moq 4](https://github.com/moq/moq4), [xUnit](https://xunit.github.io/) - for testing.
 5. [StyleCop](https://github.com/StyleCop/StyleCop) - for code formatting.
 
 
