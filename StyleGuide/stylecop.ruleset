@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="StyleCop" Description="StyleCop RuleSet" ToolsVersion="15.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <!-- Don't force this. on private members -->
+    <Rule Id="SA1101" Action="None" />
+    <Rule Id="SX1101" Action="Warning" />
+    <!-- Prefix private members with _ -->
+    <Rule Id="SA1309" Action="None" />
+    <Rule Id="SX1309" Action="Warning" />
+    <!-- Allow protected fields -->
+    <Rule Id="SA1401" Action="None" />
+    <!-- Disable documentation rules -->
+    <Rule Id="SA0001" Action="None" />
+    <Rule Id="SA1652" Action="None" />
+    <!-- Allow unqualified using directives -->
+    <Rule Id="SA1135" Action="None" />
+  </Rules>
+</RuleSet>

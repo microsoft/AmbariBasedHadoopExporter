@@ -1,0 +1,1126 @@
+﻿{
+  "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+  "Hosts" : {
+    "cluster_name" : "sparkpoc",
+    "cpu_count" : 4,
+    "disk_info" : [
+      {
+        "available" : "7170556",
+        "device" : "udev",
+        "used" : "0",
+        "percent" : "0%",
+        "size" : "7170556",
+        "type" : "devtmpfs",
+        "mountpoint" : "/dev"
+      },
+      {
+        "available" : "963819500",
+        "device" : "/dev/sda1",
+        "used" : "52604672",
+        "percent" : "6%",
+        "size" : "1016440556",
+        "type" : "ext4",
+        "mountpoint" : "/"
+      },
+      {
+        "available" : "188388828",
+        "device" : "/dev/sdb1",
+        "used" : "7400772",
+        "percent" : "4%",
+        "size" : "206291640",
+        "type" : "ext4",
+        "mountpoint" : "/mnt"
+      },
+      {
+        "available" : "963819500",
+        "device" : "none",
+        "used" : "52604672",
+        "percent" : "6%",
+        "size" : "1016440556",
+        "type" : "aufs",
+        "mountpoint" : "/var/lib/docker/aufs/mnt/f778d309af960466d3d2513a06c070cb86ea3aac46470cabe2354811d6494255"
+      }
+    ],
+    "host_health_report" : "",
+    "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+    "host_state" : "HEALTHY",
+    "host_status" : "HEALTHY",
+    "ip" : "10.0.0.19",
+    "last_agent_env" : {
+      "stackFoldersAndFiles" : [ ],
+      "alternatives" : [ ],
+      "existingUsers" : [ ],
+      "existingRepos" : [ ],
+      "installedPackages" : [ ],
+      "hostHealth" : {
+        "activeJavaProcs" : [
+          {
+            "user" : "root",
+            "pid" : 1566,
+            "command" : "/usr/bin/java -cp /usr/lib/hdinsight-logging/*:/usr/lib/hdinsight-provisioning-agent/provisioning-agent.jar -Dlog4j.configuration=file:/etc/hdinsight-provisioning-agent/conf/log4j.properties com.microsoft.provisioning.ProvisioningAgent",
+            "hadoop" : false
+          },
+          {
+            "user" : "root",
+            "pid" : 3009,
+            "command" : "/usr/bin/java -Dlog4j.configuration=file:/etc/hdinsight-patchingagent/conf/log4j.properties -jar /usr/lib/hdinsight-patchingagent/hdinsight-patchingagent.jar",
+            "hadoop" : false
+          },
+          {
+            "user" : "oozie",
+            "pid" : 3125,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Djava.util.logging.config.file=/usr/hdp/current/oozie-server/oozie-server/conf/logging.properties -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager -Djdk.tls.ephemeralDHKeySize=2048 -Dhdp.version=2.6.5.10-2 -Xmx2048m -XX:MaxPermSize=256m -Dwhitelist.filename=core-whitelist.res,oozie-whitelist.res -Dcomponent=oozie -Xmx2048m -XX:MaxPermSize=256m -Dwhitelist.filename=core-whitelist.res,oozie-whitelist.res -Dcomponent=oozie -Dderby.stream.error.file=/var/log/oozie/derby.log -Doozie.home.dir=/usr/hdp/2.6.5.10-2/oozie -Doozie.config.dir=/usr/hdp/current/oozie-server/conf -Doozie.log.dir=/var/log/oozie -Doozie.data.dir=/hadoop/oozie/data -Doozie.instance.id=hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net -Doozie.config.file=oozie-site.xml -Doozie.log4j.file=oozie-log4j.properties -Doozie.log4j.reload=10 -Doozie.http.hostname=hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net -Doozie.admin.port=11001 -Doozie.http.port=11000 -Doozie.https.port=11443 -Doozie.base.url=http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:11000/oozie -Doozie.https.keystore.file=/home/oozie/.keystore -Doozie.https.keystore.pass=password -Djava.library.path=/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64 -Djava.endorsed.dirs=/usr/lib/bigtop-tomcat/endorsed -classpath /usr/lib/bigtop-tomcat/bin/bootstrap.jar -Dcatalina.base=/usr/hdp/current/oozie-server/oozie-server -Dcatalina.home=/usr/lib/bigtop-tomcat -Djava.io.tmpdir=/var/tmp/oozie org.apache.catalina.startup.Bootstrap start",
+            "hadoop" : true
+          },
+          {
+            "user" : "root",
+            "pid" : 4044,
+            "command" : "/usr/bin/java -Djava.net.preferIPv4Stack=true -Dfailovercontroller.root.logger=INFO,CONSOLE,ROLLINGFILE,ETW,FilterLog -Dfailovercontroller.log.file=master-failover-controller.log -Dfailovercontroller.log.dir=/var/log/failover-controller -Dcomponent=master-failover-controller -cp /usr/hdp/current/failover-controller/*:/usr/hdp/current/failover-controller/lib/*:/usr/hdp/current/hadoop/*:/usr/hdp/current/zookeeper-server/*:/usr/lib/hdinsight-logging/*:/etc/failover-controller/conf: com.microsoft.hdinsight.master.MasterZKFailoverController",
+            "hadoop" : true
+          },
+          {
+            "user" : "root",
+            "pid" : 4123,
+            "command" : "/usr/bin/java -Dfailovercontroller.log.dir=/var/log/failover-controller -Dfailovercontroller.root.logger=INFO,CONSOLE,ROLLINGFILE,ETW,FilterLog -Dfailovercontroller.log.file=slave-failover-controller.log -Dcomponent=slave-failover-controller -Djava.net.preferIPv4Stack=true -cp /usr/hdp/current/failover-controller/*:/usr/hdp/current/failover-controller/lib/*:/usr/hdp/current/hadoop/*:/usr/hdp/current/zookeeper-server/*:/usr/lib/hdinsight-logging/*:/etc/failover-controller/conf: com.microsoft.hdinsight.slave.SlaveFailoverController",
+            "hadoop" : true
+          },
+          {
+            "user" : "hive",
+            "pid" : 4334,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Xmx1024m -Djava.net.preferIPv4Stack=true -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/hive -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hive -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Xmx1024m -Xmx1792m -Djava.util.logging.config.file=/usr/hdp/current/hive-metastore/conf/conf.server/parquet-logging.properties -Dhadoop.security.logger=INFO,NullAppender org.apache.hadoop.util.RunJar /usr/hdp/2.6.5.10-2/hive/lib/hive-service-1.2.1000.2.6.5.10-2.jar org.apache.hadoop.hive.metastore.HiveMetaStore -hiveconf hive.log.file=hivemetastore.log -hiveconf hive.log.dir=/var/log/hive",
+            "hadoop" : true
+          },
+          {
+            "user" : "root",
+            "pid" : 5369,
+            "command" : "/usr/bin/java -Djava.net.preferIPv4Stack=true -Dfailovercontroller.root.logger=INFO,CONSOLE,ROLLINGFILE,ETW,FilterLog -Dfailovercontroller.log.file=slave-ha-service.log -Dfailovercontroller.log.dir=/var/log/failover-controller -Dcomponent=slave-ha-service -cp /usr/hdp/current/failover-controller/*:/usr/hdp/current/failover-controller/lib/*:/usr/hdp/current/hadoop/*:/usr/hdp/current/zookeeper-server/*:/usr/lib/hdinsight-logging/*:/etc/failover-controller/conf: com.microsoft.hdinsight.haservices.SlaveHAServiceHandler",
+            "hadoop" : true
+          },
+          {
+            "user" : "hive",
+            "pid" : 5395,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Xmx1024m -Djava.net.preferIPv4Stack=true -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/hive -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hive -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Xmx1024m -Xmx5376m -Djava.util.logging.config.file=/usr/hdp/current/hive-server2/conf/conf.server/parquet-logging.properties -Dhadoop.security.logger=INFO,NullAppender org.apache.hadoop.util.RunJar /usr/hdp/2.6.5.10-2/hive/lib/hive-service-1.2.1000.2.6.5.10-2.jar org.apache.hive.service.server.HiveServer2 --hiveconf hive.aux.jars.path=file:///usr/hdp/current/hive-webhcat/share/hcatalog/hive-hcatalog-core.jar -hiveconf hive.metastore.uris=  -hiveconf hive.log.file=hiveserver2.log -hiveconf hive.log.dir=/var/log/hive",
+            "hadoop" : true
+          },
+          {
+            "user": "hcat",
+            "pid": 6031,
+            "command": "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Xmx1024m -Djava.net.preferIPv4Stack=true -Dwebhcat.log.dir=/var/log/webhcat/ -Dlog4j.configuration=file:///usr/hdp/2.6.5.10-2/hive-hcatalog/sbin/../etc/webhcat/webhcat-log4j.properties -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/hcat -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hcat -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Xmx1024m -Dhadoop.security.logger=INFO,NullAppender org.apache.hadoop.util.RunJar /usr/hdp/2.6.5.10-2/hive-hcatalog/sbin/../share/webhcat/svr/lib/hive-webhcat-1.2.1000.2.6.5.10-2.jar org.apache.hive.hcatalog.templeton.Main",
+            "hadoop": true
+          },
+          {
+            "user" : "root",
+            "pid" : 6733,
+            "command" : "/usr/bin/java -Dfailovercontroller.root.logger=INFO,CONSOLE,ROLLINGFILE,ETW,FilterLog -Dfailovercontroller.log.file=master-ha-service.log -Dfailovercontroller.log.dir=/var/log/failover-controller -Dcomponent=master-ha-service -cp /usr/hdp/current/failover-controller/*:/usr/hdp/current/failover-controller/lib/*:/usr/hdp/current/hadoop/*:/usr/hdp/current/zookeeper-server/*:/usr/lib/hdinsight-logging/*:/etc/failover-controller/conf: com.microsoft.hdinsight.haservices.MasterHAServiceHandler",
+            "hadoop" : true
+          },
+          {
+            "user" : "yarn",
+            "pid" : 15514,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dproc_timelineserver -Xmx1024m -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop-yarn/yarn -Dyarn.log.dir=/var/log/hadoop-yarn/yarn -Dhadoop.log.file=yarn-yarn-timelineserver-hn1-sparkp.log -Dyarn.log.file=yarn-yarn-timelineserver-hn1-sparkp.log -Dyarn.home.dir= -Dyarn.id.str=yarn -Dhadoop.root.logger=INFO,RFA -Dyarn.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dyarn.policy.file=hadoop-policy.xml -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=apptimelineserver -Djava.util.logging.config.file=ats.logging.properties -Dhadoop.log.dir=/var/log/hadoop-yarn/yarn -Dyarn.log.dir=/var/log/hadoop-yarn/yarn -Dhadoop.log.file=yarn-yarn-timelineserver-hn1-sparkp.log -Dyarn.log.file=yarn-yarn-timelineserver-hn1-sparkp.log -Dyarn.home.dir=/usr/hdp/2.6.5.10-2/hadoop-yarn -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.root.logger=INFO,RFA -Dyarn.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -classpath /usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/lib/*:/usr/hdp/2.6.5.10-2/hadoop/.//*:/usr/hdp/2.6.5.10-2/hadoop-hdfs/./:/usr/hdp/2.6.5.10-2/hadoop-hdfs/lib/*:/usr/hdp/2.6.5.10-2/hadoop-hdfs/.//*:/usr/hdp/2.6.5.10-2/hadoop-yarn/lib/*:/usr/hdp/2.6.5.10-2/hadoop-yarn/.//*:/usr/hdp/2.6.5.10-2/hadoop-mapreduce/lib/*:/usr/hdp/2.6.5.10-2/hadoop-mapreduce/.//*::/usr/hdp/current/hadoop-mapreduce-client/*:/usr/hdp/2.6.5.10-2/tez/*:/usr/hdp/2.6.5.10-2/tez/lib/*:/usr/hdp/2.6.5.10-2/tez/conf:/usr/hdp/current/hadoop-mapreduce-client/*:/usr/hdp/2.6.5.10-2/tez/*:/usr/hdp/2.6.5.10-2/tez/lib/*:/usr/hdp/2.6.5.10-2/tez/conf:/usr/hdp/2.6.5.10-2/hadoop-yarn/.//*:/usr/hdp/2.6.5.10-2/hadoop-yarn/lib/*:/usr/hdp/2.6.5.10-2/hadoop/conf/timelineserver-config/log4j.properties org.apache.hadoop.yarn.server.applicationhistoryservice.HDInsightApplicationHistoryServer",
+            "hadoop" : true
+          },
+          {
+            "user" : "hdfs",
+            "pid" : 22404,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dproc_zkfc -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Stack=true -Dhadoop.log.dir=/var/log/hadoop/hdfs -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hdfs -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/hdfs -Dhadoop.log.file=hadoop-hdfs-zkfc-hn1-sparkp.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hdfs -Dhadoop.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Dhadoop.security.logger=INFO,RFAS org.apache.hadoop.hdfs.tools.DFSZKFailoverController",
+            "hadoop" : true
+          },
+          {
+            "user" : "hdfs",
+            "pid" : 23012,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dproc_namenode -Xmx1024m -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Stack=true -Djava.net.preferIPv4Stack=true -Dhadoop.log.dir=/var/log/hadoop/hdfs -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hdfs -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/hdfs -Dhadoop.log.file=hadoop-hdfs-namenode-hn1-sparkp.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=hdfs -Dhadoop.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -server -XX:ParallelGCThreads=8 -XX:+UseConcMarkSweepGC -XX:ErrorFile=/var/log/hadoop/hdfs/hs_err_pid%p.log -XX:NewSize=200m -XX:MaxNewSize=200m -Xloggc:/var/log/hadoop/hdfs/gc.log-201901131544 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xms1024m -Xmx1024m -Dhadoop.security.logger=INFO,DRFAS -Dhdfs.audit.logger=INFO,DRFAAUDIT -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=namenode -server -XX:ParallelGCThreads=8 -XX:+UseConcMarkSweepGC -XX:ErrorFile=/var/log/hadoop/hdfs/hs_err_pid%p.log -XX:NewSize=200m -XX:MaxNewSize=200m -Xloggc:/var/log/hadoop/hdfs/gc.log-201901131544 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xms1024m -Xmx1024m -Dhadoop.security.logger=INFO,DRFAS -Dhdfs.audit.logger=INFO,DRFAAUDIT -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=namenode -server -XX:ParallelGCThreads=8 -XX:+UseConcMarkSweepGC -XX:ErrorFile=/var/log/hadoop/hdfs/hs_err_pid%p.log -XX:NewSize=200m -XX:MaxNewSize=200m -Xloggc:/var/log/hadoop/hdfs/gc.log-201901131544 -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -Xms1024m -Xmx1024m -Dhadoop.security.logger=INFO,DRFAS -Dhdfs.audit.logger=INFO,DRFAAUDIT -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=namenode -Dhadoop.security.logger=INFO,RFAS org.apache.hadoop.hdfs.server.namenode.NameNode",
+            "hadoop" : true
+          },
+          {
+            "user" : "hive",
+            "pid" : 27694,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dhdp.version=2.6.5.10-2 -cp /usr/hdp/current/spark2-client/conf/:/usr/hdp/current/spark2-client/jars/*:/etc/hadoop/conf/:/usr/lib/hdinsight-datalake/*:/usr/hdp/current/spark_llap/*:/usr/hdp/2.6.5.10-2/hadoop/lib/hadoop-lzo-0.6.0.2.6.5.10-2.jar:/usr/hdp/current/hadoop-client/hadoop-azure.jar:/usr/hdp/current/hadoop-client/lib/azure-storage-5.4.0.jar:/usr/lib/hdinsight-logging/mdsdclient-1.0.jar:/usr/lib/hdinsight-logging/microsoft-log4j-etwappender-1.0.jar:/usr/lib/hdinsight-logging/json-simple-1.1.jar -Xmx1g -Dhdp.version=2.6.5.10-2 -Detwlogger.component=sparkthriftdriver -DlogFilter.filename=SparkLogFilters.xml -DpatternGroup.filename=SparkPatternGroups.xml -Dlog4jspark.root.logger=INFO,console,RFA,ETW,Anonymizer -Dlog4jspark.log.dir=/var/log/spark -Dlog4jspark.log.file=sparkthriftdriver.log -Djava.io.tmpdir=/var/tmp/spark -Dlog4j.configuration=file:/usr/hdp/current/spark2-client/conf/log4j.properties -Djavax.xml.parsers.SAXParserFactory=com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl -XX:+UseParallelGC -XX:+UseParallelOldGC org.apache.spark.deploy.SparkSubmit --properties-file /usr/hdp/current/spark2-thriftserver/conf/spark-thrift-sparkconf.conf --class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2 --name Thrift JDBC/ODBC Server spark-internal",
+            "hadoop" : true
+          },
+          {
+            "user" : "yarn",
+            "pid" : 28458,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dproc_resourcemanager -Xmx1024m -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop-yarn/yarn -Dyarn.log.dir=/var/log/hadoop-yarn/yarn -Dhadoop.log.file=yarn-yarn-resourcemanager-hn1-sparkp.log -Dyarn.log.file=yarn-yarn-resourcemanager-hn1-sparkp.log -Dyarn.home.dir= -Dyarn.id.str=yarn -Dhadoop.root.logger=INFO,RFA -Dyarn.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dyarn.policy.file=hadoop-policy.xml -Dyarn.server.resourcemanager.appsummary.logger=INFO,RMSUMMARY -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=resourcemanager -Dhadoop.log.dir=/var/log/hadoop-yarn/yarn -Dyarn.log.dir=/var/log/hadoop-yarn/yarn -Dhadoop.log.file=yarn-yarn-resourcemanager-hn1-sparkp.log -Dyarn.log.file=yarn-yarn-resourcemanager-hn1-sparkp.log -Dyarn.home.dir=/usr/hdp/2.6.5.10-2/hadoop-yarn -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.root.logger=INFO,RFA -Dyarn.root.logger=INFO,RFA -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -classpath /usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/conf:/usr/hdp/2.6.5.10-2/hadoop/lib/*:/usr/hdp/2.6.5.10-2/hadoop/.//*:/usr/hdp/2.6.5.10-2/hadoop-hdfs/./:/usr/hdp/2.6.5.10-2/hadoop-hdfs/lib/*:/usr/hdp/2.6.5.10-2/hadoop-hdfs/.//*:/usr/hdp/2.6.5.10-2/hadoop-yarn/lib/*:/usr/hdp/2.6.5.10-2/hadoop-yarn/.//*:/usr/hdp/2.6.5.10-2/hadoop-mapreduce/lib/*:/usr/hdp/2.6.5.10-2/hadoop-mapreduce/.//*::/usr/hdp/current/hadoop-mapreduce-client/*:/usr/hdp/2.6.5.10-2/tez/*:/usr/hdp/2.6.5.10-2/tez/lib/*:/usr/hdp/2.6.5.10-2/tez/conf:/usr/hdp/current/hadoop-mapreduce-client/*:/usr/hdp/2.6.5.10-2/tez/*:/usr/hdp/2.6.5.10-2/tez/lib/*:/usr/hdp/2.6.5.10-2/tez/conf:/usr/hdp/2.6.5.10-2/hadoop-yarn/.//*:/usr/hdp/2.6.5.10-2/hadoop-yarn/lib/*:/usr/hdp/2.6.5.10-2/hadoop/conf/rm-config/log4j.properties org.apache.hadoop.yarn.server.resourcemanager.ResourceManager",
+            "hadoop" : true
+          },
+          {
+            "user" : "mapred",
+            "pid" : 31176,
+            "command" : "/usr/lib/jvm/java-8-openjdk-amd64/bin/java -Dproc_historyserver -Xmx900m -Djava.net.preferIPv4Stack=true -Dhdp.version= -Djava.net.preferIPv4Stack=true -Dhadoop.log.dir=/var/log/hadoop/mapred -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=mapred -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Dhadoop.log.dir=/var/log/hadoop-mapreduce/mapred -Dhadoop.log.file=hadoop.log -Dhadoop.root.logger=INFO,console -Dhadoop.id.str=mapred -Dhdp.version=2.6.5.10-2 -Dhadoop.log.dir=/var/log/hadoop/mapred -Dhadoop.log.file=hadoop.log -Dhadoop.home.dir=/usr/hdp/2.6.5.10-2/hadoop -Dhadoop.id.str=mapred -Dhadoop.root.logger=INFO,console -Djava.library.path=:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native:/usr/hdp/2.6.5.10-2/hadoop/lib/native/Linux-amd64-64:/usr/lib/hadoop/lib/native/Linux-amd64-64:/usr/hdp/2.6.5.10-2/hadoop/lib/native -Dhadoop.policy.file=hadoop-policy.xml -Djava.net.preferIPv4Stack=true -Dhadoop.log.dir=/var/log/hadoop-mapreduce/mapred -Dhadoop.log.file=mapred-mapred-historyserver-hn1-sparkp.log -Dhadoop.root.logger=INFO,RFA -Dmapred.jobsummary.logger=INFO,JSA -Dwhitelist.filename=core-whitelist.res,coremanual-whitelist.res -Dcomponent=historyserver -Dhadoop.security.logger=INFO,NullAppender org.apache.hadoop.mapreduce.v2.hs.HDInsightJobHistoryServer",
+            "hadoop" : true
+          }
+        ],
+        "agentTimeStampAtReporting" : 1552493087361,
+        "serverTimeStampAtReporting" : 1552493087431,
+        "liveServices" : [
+          {
+            "desc" : "",
+            "name" : "ntp or chrony",
+            "status" : "Healthy"
+          }
+        ]
+      },
+      "umask" : 18,
+      "transparentHugePage" : "never",
+      "firewallRunning" : false,
+      "firewallName" : "ufw",
+      "hasUnlimitedJcePolicy" : true,
+      "reverseLookup" : true
+    },
+    "last_heartbeat_time" : 1552493090161,
+    "last_registration_time" : 1551872054433,
+    "maintenance_state" : "OFF",
+    "os_arch" : "x86_64",
+    "os_family" : "ubuntu16",
+    "os_type" : "ubuntu16",
+    "ph_cpu_count" : 4,
+    "public_host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+    "rack_info" : "/default-rack",
+    "recovery_report" : {
+      "summary" : "RECOVERABLE",
+      "component_reports" : [ ]
+    },
+    "recovery_summary" : "RECOVERABLE",
+    "total_mem" : 14362160,
+    "desired_configs" : {
+      "ams-env" : {
+        "default" : "version1547647211880"
+      },
+      "ams-grafana-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-grafana-ini" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-hbase-env" : {
+        "default" : "version1547647211881"
+      },
+      "ams-hbase-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-hbase-policy" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-hbase-security-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-hbase-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-site" : {
+        "default" : "version1547648902632"
+      },
+      "ams-ssl-client" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ams-ssl-server" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "beeline-log4j2" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "capacity-scheduler" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "cluster-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "core-site" : {
+        "default" : "iocachedeactivateversion20180829144422"
+      },
+      "hadoop-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hadoop-metrics2.properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hadoop-policy" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hcat-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hdfs-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hdfs-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hdfs-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-atlas-application.properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-exec-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-exec-log4j2" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-interactive-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-interactive-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-log4j2" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hive-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hivemetastore-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hiveserver2-interactive-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "hiveserver2-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "iocache-bks-log4j-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "iocache-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "iocache-lds-log4j-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "jupyter-site" : {
+        "default" : "INITIAL"
+      },
+      "livy2-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "livy2-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "livy2-log4j-properties" : {
+        "default" : "version1551265682812"
+      },
+      "livy2-spark-blacklist" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "llap-cli-log4j2" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "llap-daemon-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "mapred-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "mapred-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "mapred-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "oozie-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "oozie-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "oozie-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "oozie-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "parquet-logging" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "pig-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "pig-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "pig-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hdfs-audit" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hdfs-plugin-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hdfs-policymgr-ssl" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hdfs-security" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hive-audit" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hive-plugin-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hive-policymgr-ssl" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-hive-security" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-yarn-audit" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-yarn-plugin-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-yarn-policymgr-ssl" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ranger-yarn-security" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-defaults" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-hive-site-override" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-log4j-properties" : {
+        "default" : "version1551266302458"
+      },
+      "spark2-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-metrics-properties" : {
+        "default" : "version1551196373065"
+      },
+      "spark2-thrift-fairscheduler" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "spark2-thrift-sparkconf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "sqoop-atlas-application.properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "sqoop-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "sqoop-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ssl-client" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "ssl-server" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "tez-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "tez-interactive-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "tez-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "webhcat-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "webhcat-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "webhcat-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "yarn-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "yarn-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "yarn-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "yarn-site" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zeppelin-config" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zeppelin-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zeppelin-log4j-properties" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zeppelin-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zeppelin-shiro-ini" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zoo.cfg" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zookeeper-env" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zookeeper-log4j" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      },
+      "zookeeper-logsearch-conf" : {
+        "default" : "TOPOLOGY_RESOLVED"
+      }
+    }
+  },
+  "alerts_summary" : {
+    "CRITICAL" : 0,
+    "MAINTENANCE" : 25,
+    "OK" : 11,
+    "UNKNOWN" : 0,
+    "WARNING" : 0
+  },
+  "metrics" : {
+    "cpu": {
+      "cpu_idle": 67.1,
+      "cpu_nice": 25.03333333333334,
+      "cpu_num": 4.0,
+      "cpu_system": 3.0166666666666666,
+      "cpu_user": 2.6500000000000004,
+      "cpu_wio": 2.133333333333333
+    },
+    "disk": {
+      "disk_free": 1116.5133333333333,
+      "disk_total": 1166.09,
+      "read_bytes": 1.0108185311573333E12,
+      "read_count": 3.6989319166666664E7,
+      "read_time": 1.1379552E7,
+      "write_bytes": 2.1374950638933335E12,
+      "write_count": 1.5327406766666666E8,
+      "write_time": 3.902326646666666E8
+    },
+    "load" : {
+      "load_fifteen" : 2.69,
+      "load_five" : 2.75,
+      "load_one" : 3.3
+    },
+    "memory": {
+      "mem_cached": 1.0199195333333332E7,
+      "mem_free": 1.0832333333333332E7,
+      "mem_shared": 0.0,
+      "mem_total": 1.436216E7,
+      "swap_free": 6881148.0
+    },
+    "network": {
+      "bytes_in": 35262.061601662645,
+      "bytes_out": 22768.010268507038,
+      "pkts_in": 40.06216396742174,
+      "pkts_out": 29.67923292219633
+    },
+    "process": {
+      "proc_run": 1.0,
+      "proc_total": 179.0
+    }
+  },
+  "alerts" : [
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/1",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 71,
+        "definition_name" : "ambari_agent_disk_usage",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 1,
+        "service_name" : "AMBARI"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/11",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 72,
+        "definition_name" : "ambari_server_agent_heartbeat",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 11,
+        "service_name" : "AMBARI"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/16",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 70,
+        "definition_name" : "ambari_agent_version_select",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 16,
+        "service_name" : "AMBARI"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/52",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 55,
+        "definition_name" : "ams_metrics_monitor_process",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 52,
+        "service_name" : "AMBARI_METRICS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/27",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 15,
+        "definition_name" : "namenode_webui",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 27,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/29",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 25,
+        "definition_name" : "upgrade_finalized_state",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 29,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/31",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 14,
+        "definition_name" : "namenode_hdfs_blocks_health",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 31,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/33",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 34,
+        "definition_name" : "namenode_hdfs_capacity_utilization",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 33,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/37",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 35,
+        "definition_name" : "namenode_rpc_latency",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 37,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/39",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 5,
+        "definition_name" : "namenode_hdfs_pending_deletion_blocks",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 39,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/41",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 3,
+        "definition_name" : "namenode_cpu",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 41,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/46",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 29,
+        "definition_name" : "hdfs_zookeeper_failover_controller_process",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 46,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/47",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 36,
+        "definition_name" : "namenode_last_checkpoint",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 47,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/48",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 9,
+        "definition_name" : "datanode_health_summary",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 48,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/53",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 30,
+        "definition_name" : "namenode_directory_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 53,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/126",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 37,
+        "definition_name" : "increase_nn_heap_usage_daily",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 126,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/128",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 32,
+        "definition_name" : "increase_nn_heap_usage_weekly",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 128,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/130",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 26,
+        "definition_name" : "namenode_client_rpc_processing_latency_hourly",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 130,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/131",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 22,
+        "definition_name" : "namenode_client_rpc_queue_latency_hourly",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 131,
+        "service_name" : "HDFS"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/30",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 54,
+        "definition_name" : "hive_webhcat_server_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 30,
+        "service_name" : "HIVE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/101",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 53,
+        "definition_name" : "hive_server_process",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 101,
+        "service_name" : "HIVE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/119",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 50,
+        "definition_name" : "hive_metastore_process",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 119,
+        "service_name" : "HIVE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/49",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 62,
+        "definition_name" : "cache_data_transfer_server_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 49,
+        "service_name" : "IOCACHE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/51",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 63,
+        "definition_name" : "cache_metadata_server_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 51,
+        "service_name" : "IOCACHE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/34",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 67,
+        "definition_name" : "mapreduce_history_server_webui",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 34,
+        "service_name" : "MAPREDUCE2"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/38",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 66,
+        "definition_name" : "mapreduce_history_server_process",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 38,
+        "service_name" : "MAPREDUCE2"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/40",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 69,
+        "definition_name" : "mapreduce_history_server_cpu",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 40,
+        "service_name" : "MAPREDUCE2"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/42",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 68,
+        "definition_name" : "mapreduce_history_server_rpc_latency",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 42,
+        "service_name" : "MAPREDUCE2"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/32",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 65,
+        "definition_name" : "oozie_server_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 32,
+        "service_name" : "OOZIE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/36",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 64,
+        "definition_name" : "oozie_server_webui",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 36,
+        "service_name" : "OOZIE"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/74",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 40,
+        "definition_name" : "spark2_thriftserver_status",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 74,
+        "service_name" : "SPARK2"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/28",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 44,
+        "definition_name" : "yarn_resourcemanager_webui",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 28,
+        "service_name" : "YARN"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/43",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 45,
+        "definition_name" : "yarn_resourcemanager_cpu",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 43,
+        "service_name" : "YARN"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/44",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 48,
+        "definition_name" : "nodemanager_health_summary",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 44,
+        "service_name" : "YARN"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/45",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 49,
+        "definition_name" : "yarn_app_timeline_server_webui",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 45,
+        "service_name" : "YARN"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/alerts/50",
+      "Alert" : {
+        "cluster_name" : "sparkpoc",
+        "definition_id" : 47,
+        "definition_name" : "yarn_resourcemanager_rpc_latency",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 50,
+        "service_name" : "YARN"
+      }
+    }
+  ],
+  "kerberos_identities" : [ ],
+  "stack_versions" : [
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/stack_versions/5",
+      "HostStackVersions" : {
+        "cluster_name" : "sparkpoc",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net",
+        "id" : 5,
+        "repository_version" : 1,
+        "stack" : "HDP",
+        "version" : "2.6"
+      }
+    }
+  ],
+  "host_components" : [
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/APP_TIMELINE_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "APP_TIMELINE_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/CACHE_DATA_TRANSFER_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "CACHE_DATA_TRANSFER_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/CACHE_METADATA_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "CACHE_METADATA_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/CONTROLLER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "CONTROLLER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/HDFS_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "HDFS_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/HISTORYSERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "HISTORYSERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/HIVE_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "HIVE_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/HIVE_METASTORE",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "HIVE_METASTORE",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/HIVE_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "HIVE_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/MAPREDUCE2_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "MAPREDUCE2_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/METRICS_MONITOR",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "METRICS_MONITOR",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/NAMENODE",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "NAMENODE",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/OOZIE_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "OOZIE_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/OOZIE_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "OOZIE_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/RESOURCEMANAGER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "RESOURCEMANAGER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/SPARK2_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "SPARK2_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/SPARK2_THRIFTSERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "SPARK2_THRIFTSERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/TEZ_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "TEZ_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/WEBHCAT_SERVER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "WEBHCAT_SERVER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/YARN_CLIENT",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "YARN_CLIENT",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/ZKFC",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "ZKFC",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    }
+  ]
+}

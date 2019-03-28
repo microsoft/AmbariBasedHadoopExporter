@@ -1,0 +1,208 @@
+﻿{
+  "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/services/YARN/components/RESOURCEMANAGER",
+  "ServiceComponentInfo" : {
+    "StartTime" : 1542881623405,
+    "category" : "MASTER",
+    "cluster_name" : "sparkpoc",
+    "component_name" : "RESOURCEMANAGER",
+    "desired_stack" : "HDP-2.6",
+    "desired_version" : "2.6.5.10-2",
+    "display_name" : "ResourceManager",
+    "init_count" : 0,
+    "install_failed_count" : 0,
+    "installed_count" : 0,
+    "recovery_enabled" : "true",
+    "repository_state" : "CURRENT",
+    "service_name" : "YARN",
+    "started_count" : 2,
+    "state" : "STARTED",
+    "total_count" : 2,
+    "unknown_count" : 0,
+    "rm_metrics" : {
+      "cluster" : {
+        "activeNMcount" : 2,
+        "decommissionedNMcount" : 0,
+        "lostNMcount" : 0,
+        "nodeManagers" : "[{\"HostName\":\"wn0-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net\",\"Rack\":\"/default-rack\",\"State\":\"RUNNING\",\"NodeId\":\"wn0-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:30050\",\"NodeHTTPAddress\":\"wn0-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:30060\",\"LastHealthUpdate\":1547130586378,\"HealthReport\":\"\",\"NodeManagerVersion\":\"2.7.3.2.6.5.10-2\",\"NumContainers\":1,\"UsedMemoryMB\":1536,\"AvailableMemoryMB\":10752},{\"HostName\":\"wn4-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net\",\"Rack\":\"/default-rack\",\"State\":\"RUNNING\",\"NodeId\":\"wn4-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:30050\",\"NodeHTTPAddress\":\"wn4-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:30060\",\"LastHealthUpdate\":1547130586946,\"HealthReport\":\"\",\"NodeManagerVersion\":\"2.7.3.2.6.5.10-2\",\"NumContainers\":1,\"UsedMemoryMB\":1536,\"AvailableMemoryMB\":10752}]",
+        "rebootedNMcount" : 0,
+        "unhealthyNMcount" : 0
+      }
+    }
+  },
+  "metrics" : {
+    "jvm" : {
+      "HeapMemoryMax" : 954728448,
+      "HeapMemoryUsed" : 137754320,
+      "NonHeapMemoryMax" : -1,
+      "NonHeapMemoryUsed" : 118702384,
+      "gcCount" : 151301,
+      "gcTimeMillis" : 859527,
+      "logError" : 7,
+      "logFatal" : 0,
+      "logInfo" : 44826,
+      "logWarn" : 2187,
+      "memHeapCommittedM" : 155.5,
+      "memHeapUsedM" : 147.84479,
+      "memMaxM" : 910.5,
+      "memNonHeapCommittedM" : 116.0,
+      "memNonHeapUsedM" : 113.203415,
+      "threadsBlocked" : 0,
+      "threadsNew" : 0,
+      "threadsRunnable" : 19,
+      "threadsTerminated" : 0,
+      "threadsTimedWaiting" : 176,
+      "threadsWaiting" : 73
+    },
+    "rpc" : {
+      "NumOpenConnections" : 2,
+      "ReceivedBytes" : 353595791,
+      "RpcProcessingTime_avg_time" : 0.0,
+      "RpcProcessingTime_num_ops" : 2155869,
+      "RpcQueueTime_avg_time" : 0.0,
+      "RpcQueueTime_num_ops" : 2155869,
+      "SentBytes" : 104076987,
+      "callQueueLen" : 0,
+      "rpcAuthenticationFailures" : 0,
+      "rpcAuthenticationSuccesses" : 216,
+      "rpcAuthorizationFailures" : 0,
+      "rpcAuthorizationSuccesses" : 216
+    },
+    "runtime" : {
+      "StartTime" : 1542881623405
+    },
+    "ugi" : {
+      "loginFailure_avg_time" : 0.0,
+      "loginFailure_num_ops" : 0,
+      "loginSuccess_avg_time" : 0.0,
+      "loginSuccess_num_ops" : 0
+    },
+    "yarn" : {
+      "ClusterMetrics" : {
+        "NumActiveNMs" : 2,
+        "NumDecommissionedNMs" : 0,
+        "NumLostNMs" : 0,
+        "NumRebootedNMs" : 0,
+        "NumUnhealthyNMs" : 0
+      },
+      "Queue" : {
+        "root" : {
+          "AMResourceLimitMB" : 0,
+          "AMResourceLimitVCores" : 0,
+          "ActiveApplications" : 0,
+          "ActiveUsers" : 0,
+          "AggregateContainersAllocated" : 1371,
+          "AggregateContainersReleased" : 1369,
+          "AllocatedContainers" : 2,
+          "AllocatedMB" : 3072,
+          "AllocatedVCores" : 2,
+          "AppAttemptFirstContainerAllocationDelayAvgTime" : 0.0,
+          "AppAttemptFirstContainerAllocationDelayNumOps" : 0,
+          "AppsCompleted" : 114,
+          "AppsFailed" : 10,
+          "AppsKilled" : 21,
+          "AppsPending" : 0,
+          "AppsRunning" : 2,
+          "AppsSubmitted" : 147,
+          "AvailableMB" : 21504,
+          "AvailableVCores" : 12,
+          "PendingContainers" : 0,
+          "PendingMB" : 0,
+          "PendingVCores" : 0,
+          "ReservedContainers" : 0,
+          "ReservedMB" : 0,
+          "ReservedVCores" : 0,
+          "UsedAMResourceMB" : 0,
+          "UsedAMResourceVCores" : 0,
+          "running_0" : 0,
+          "running_1440" : 2,
+          "running_300" : 0,
+          "running_60" : 0,
+          "default" : {
+            "AMResourceLimitMB" : 7168,
+            "AMResourceLimitVCores" : 1,
+            "ActiveApplications" : 0,
+            "ActiveUsers" : 0,
+            "AggregateContainersAllocated" : 1355,
+            "AggregateContainersReleased" : 1355,
+            "AllocatedContainers" : 0,
+            "AllocatedMB" : 0,
+            "AllocatedVCores" : 0,
+            "AppAttemptFirstContainerAllocationDelayAvgTime" : 0.0,
+            "AppAttemptFirstContainerAllocationDelayNumOps" : 0,
+            "AppsCompleted" : 100,
+            "AppsFailed" : 9,
+            "AppsKilled" : 21,
+            "AppsPending" : 0,
+            "AppsRunning" : 0,
+            "AppsSubmitted" : 130,
+            "AvailableMB" : 12288,
+            "AvailableVCores" : 7,
+            "PendingContainers" : 0,
+            "PendingMB" : 0,
+            "PendingVCores" : 0,
+            "ReservedContainers" : 0,
+            "ReservedMB" : 0,
+            "ReservedVCores" : 0,
+            "UsedAMResourceMB" : 0,
+            "UsedAMResourceVCores" : 0,
+            "running_0" : 0,
+            "running_1440" : 0,
+            "running_300" : 0,
+            "running_60" : 0
+          },
+          "thriftsvr" : {
+            "AMResourceLimitMB" : 8192,
+            "AMResourceLimitVCores" : 1,
+            "ActiveApplications" : 0,
+            "ActiveUsers" : 0,
+            "AggregateContainersAllocated" : 16,
+            "AggregateContainersReleased" : 14,
+            "AllocatedContainers" : 2,
+            "AllocatedMB" : 3072,
+            "AllocatedVCores" : 2,
+            "AppAttemptFirstContainerAllocationDelayAvgTime" : 0.0,
+            "AppAttemptFirstContainerAllocationDelayNumOps" : 0,
+            "AppsCompleted" : 14,
+            "AppsFailed" : 1,
+            "AppsKilled" : 0,
+            "AppsPending" : 0,
+            "AppsRunning" : 2,
+            "AppsSubmitted" : 17,
+            "AvailableMB" : 9216,
+            "AvailableVCores" : 5,
+            "PendingContainers" : 0,
+            "PendingMB" : 0,
+            "PendingVCores" : 0,
+            "ReservedContainers" : 0,
+            "ReservedMB" : 0,
+            "ReservedVCores" : 0,
+            "UsedAMResourceMB" : 3072,
+            "UsedAMResourceVCores" : 2,
+            "running_0" : 0,
+            "running_1440" : 2,
+            "running_300" : 0,
+            "running_60" : 0
+          }
+        }
+      }
+    }
+  },
+  "host_components" : [
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn0-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/RESOURCEMANAGER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "RESOURCEMANAGER",
+        "host_name" : "hn0-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    },
+    {
+      "href" : "http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net:8080/api/v1/clusters/sparkpoc/hosts/hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net/host_components/RESOURCEMANAGER",
+      "HostRoles" : {
+        "cluster_name" : "sparkpoc",
+        "component_name" : "RESOURCEMANAGER",
+        "host_name" : "hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net"
+      }
+    }
+  ]
+}
