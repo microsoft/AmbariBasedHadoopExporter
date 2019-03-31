@@ -40,13 +40,7 @@ namespace App
                     secretsConfigurationSection.Validate();
                     configApp.AddSecretProvider(secretsConfigurationSection);
                 })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    // Adding configuration and services
-                    services.AddAppConfigurations(hostContext.Configuration);
-                    services.AddAppServices(hostContext.Configuration);
-                })
-                .UseSerilog((hostContext, configuration) =>
+                .UseSerilog((hostContext, loggerConfiguration) =>
                 {
                     var logLevelString = hostContext.Configuration.GetSection("LogLevel").Value;
                     if (Enum.TryParse(logLevelString, out LogEventLevel serilogMinimumLevel))
@@ -55,7 +49,13 @@ namespace App
                         serilogMinimumLevel = LogEventLevel.Debug;
                     }
 
-                    configuration.MinimumLevel.Is(serilogMinimumLevel).Enrich.FromLogContext().WriteTo.Console();
+                    loggerConfiguration.MinimumLevel.Is(serilogMinimumLevel).Enrich.FromLogContext().WriteTo.Console();
+                })
+                .ConfigureServices((hostContext, services) =>
+                {
+                    // Adding configuration and services
+                    services.AddAppConfigurations(hostContext.Configuration);
+                    services.AddAppServices(hostContext.Configuration);
                 })
                 .UseConsoleLifetime()
                 .Build();
