@@ -7,7 +7,7 @@ However, you may want to export AMS's collected metrics to a different source li
 
 
 # Tested environment
-We've tested our exporter against an Azure HDInsight cluster 3.6 running HDP 2.6. <br>
+We're running on Azure environment, using Azure HDInsight cluster 3.6 running HDP 2.6. <br>
 The exporter was deployed on our Kubernetes cluster running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles all secrets acquisition from an Azure Key Vault and injection to our containers.
 
 
@@ -17,14 +17,14 @@ The exporter was deployed on our Kubernetes cluster running [init-container](htt
 2. Run `docker build . -t ambari-exporter`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
 
 # Deploying to Kubernetes
-## Configuration details
+
 Every service requires settings file to run, an example of full settings file can be found [here](test\ComponentTests\appsettings.json). But, since we're using Kubernetes as our orchestrator, we can leverage  [helm](https://github.com/helm/charts) to inject those values during deployment as environment variables.<br>
 
 ## Authentication details
 The exporters authenticate against an Ambari serve, thus, we need to have an authenticated session against the Ambari server. As mentioned earlier, we're running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles the acquisition of our Ambari credentials.
 
-## Helm charts
-TODO<br>
+## Example: Helm chart
+Link to helm.
 
 
 
