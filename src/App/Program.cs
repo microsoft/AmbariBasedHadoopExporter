@@ -9,9 +9,11 @@ namespace App
     using System.Diagnostics;
     using System.IO;
     using System.Threading.Tasks;
+    using App.Logging;
     using App.Services;
     using Infrastructure.Configuration;
     using Infrastructure.Extensions;
+    using Infrastructure.Utils;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Serilog;
@@ -49,7 +51,7 @@ namespace App
                         serilogMinimumLevel = LogEventLevel.Debug;
                     }
 
-                    loggerConfiguration.MinimumLevel.Is(serilogMinimumLevel).Enrich.FromLogContext().WriteTo.Console();
+                    loggerConfiguration.MinimumLevel.Is(serilogMinimumLevel).Enrich.FromLogContext().WriteTo.Console(new LogFormatter());
                 })
                 .ConfigureServices((hostContext, services) =>
                 {

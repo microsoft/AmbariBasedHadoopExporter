@@ -8,6 +8,8 @@ namespace Core.Exporters.Concrete
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Threading;
     using System.Threading.Tasks;
     using Core.Configurations.Exporters;
     using Core.Exporters.Abstract;
@@ -52,44 +54,54 @@ namespace Core.Exporters.Concrete
         {
             try
             {
-                var content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
-                var clusterComponent = JsonConvert.DeserializeObject<ClusterComponent>(content);
-
-                var hostsTasksList = ExportHostsMetricsAsync(clusterComponent.HostEntryList);
-
-                // Constructing labels
-                var labels = new Dictionary<string, string>()
+                using (_logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name }, }))
                 {
-                    { "ClusterName", clusterComponent.ClusterReport.ClusterName },
-                    { "Component", "Cluster" },
-                };
-                labels.TryAdd(_exporterConfiguration.DefaultLabels);
+                    _logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
+                    var stopWatch = Stopwatch.StartNew();
 
-                // Health Report
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HeartbeatLost", clusterComponent.ClusterReport.HealthReport.HeartbeatLost, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStateHealthy", clusterComponent.ClusterReport.HealthReport.HostsStateHealthy, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStateHealthy", clusterComponent.ClusterReport.HealthReport.HostsStateUnhealthy, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusAlert", clusterComponent.ClusterReport.HealthReport.HostsStatusAlert, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusHealthy", clusterComponent.ClusterReport.HealthReport.HostsStatusHealthy, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusUnhealthy", clusterComponent.ClusterReport.HealthReport.HostsStatusUnhealthy, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusUnknown", clusterComponent.ClusterReport.HealthReport.HostsStatusUnknown, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsWithMaintenanceFlag", clusterComponent.ClusterReport.HealthReport.HostsWithMaintenanceFlag, labels);
-                _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsWithStaleConfig", clusterComponent.ClusterReport.HealthReport.HostsWithStaleConfig, labels);
+                    var content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
+                    var clusterComponent = JsonConvert.DeserializeObject<ClusterComponent>(content);
 
-                // Alerts Summary
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Critical", clusterComponent.AlertsSummary.Critical, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Maintenance", clusterComponent.AlertsSummary.Maintenance, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Ok", clusterComponent.AlertsSummary.Ok, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Unknown", clusterComponent.AlertsSummary.Unknown, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Warning", clusterComponent.AlertsSummary.Warning, labels);
+                    var hostsTasksList = ExportHostsMetricsAsync(clusterComponent.HostEntryList);
 
-                // Alerts Summary Hosts
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Critical", clusterComponent.AlertsSummaryHosts.Critical, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Ok", clusterComponent.AlertsSummaryHosts.Ok, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Unknown", clusterComponent.AlertsSummaryHosts.Unknown, labels);
-                _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Warning", clusterComponent.AlertsSummaryHosts.Warning, labels);
+                    // Constructing labels
+                    var labels = new Dictionary<string, string>()
+                    {
+                        { "ClusterName", clusterComponent.ClusterReport.ClusterName },
+                        { "Component", "Cluster" },
+                    };
+                    labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
-                await Task.WhenAll(hostsTasksList);
+                    // Health Report
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HeartbeatLost", clusterComponent.ClusterReport.HealthReport.HeartbeatLost, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStateHealthy", clusterComponent.ClusterReport.HealthReport.HostsStateHealthy, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStateHealthy", clusterComponent.ClusterReport.HealthReport.HostsStateUnhealthy, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusAlert", clusterComponent.ClusterReport.HealthReport.HostsStatusAlert, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusHealthy", clusterComponent.ClusterReport.HealthReport.HostsStatusHealthy, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusUnhealthy", clusterComponent.ClusterReport.HealthReport.HostsStatusUnhealthy, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsStatusUnknown", clusterComponent.ClusterReport.HealthReport.HostsStatusUnknown, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsWithMaintenanceFlag", clusterComponent.ClusterReport.HealthReport.HostsWithMaintenanceFlag, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "HealthReport_HostsWithStaleConfig", clusterComponent.ClusterReport.HealthReport.HostsWithStaleConfig, labels);
+
+                    // Alerts Summary
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Critical", clusterComponent.AlertsSummary.Critical, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Maintenance", clusterComponent.AlertsSummary.Maintenance, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Ok", clusterComponent.AlertsSummary.Ok, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Unknown", clusterComponent.AlertsSummary.Unknown, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummary_Warning", clusterComponent.AlertsSummary.Warning, labels);
+
+                    // Alerts Summary Hosts
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Critical", clusterComponent.AlertsSummaryHosts.Critical, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Ok", clusterComponent.AlertsSummaryHosts.Ok, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Unknown", clusterComponent.AlertsSummaryHosts.Unknown, labels);
+                    _prometheusUtils.ReportGauge(Collectors, "AlertsSummaryHosts_Warning", clusterComponent.AlertsSummaryHosts.Warning, labels);
+
+                    await Task.WhenAll(hostsTasksList);
+
+                    // Tracing
+                    stopWatch.Stop();
+                    _logger.LogInformation($"Runtime: {stopWatch.Elapsed}.");
+                }
             }
             catch (Exception e)
             {
@@ -135,10 +147,13 @@ namespace Core.Exporters.Concrete
                                             $"HostName - cannot be null/empty: {hostName}.");
             }
 
-            using (_logger.BeginScope(new Dictionary<string, string> { ["HostName"] = hostName }))
+            using (_logger.BeginScope(new Dictionary<string, object> { { "HostName", hostName }, }))
             {
                 try
                 {
+                    _logger.LogInformation($"{nameof(ExportHostMetricsAsync)} Started.");
+                    var stopWatch = Stopwatch.StartNew();
+
                     var content = await _contentProvider.GetResponseContentAsync($"{_exporterConfiguration.HostsEndpoint}/{hostName}");
                     var component = JsonConvert.DeserializeObject<ClusterHostComponent>(content);
 
@@ -184,6 +199,10 @@ namespace Core.Exporters.Concrete
                     // Processes
                     _prometheusUtils.ReportGauge(Collectors, "Process_Run", component.Metrics.Process.Run, labels);
                     _prometheusUtils.ReportGauge(Collectors, "Process_Total", component.Metrics.Process.Total, labels);
+
+                    // Tracing
+                    stopWatch.Stop();
+                    _logger.LogInformation($"Runtime: {stopWatch.Elapsed}.");
                 }
                 catch (Exception e)
                 {
