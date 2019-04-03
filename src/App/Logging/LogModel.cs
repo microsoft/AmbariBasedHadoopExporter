@@ -11,7 +11,10 @@ namespace App.Logging
     using Newtonsoft.Json;
     using Serilog.Events;
 
-    public class LogModel
+    /// <summary>
+    /// Simple log model that will be used to represend a log entry containing all relevant information.
+    /// </summary>
+    internal class LogModel
     {
         public LogModel(LogEvent logEvent, IEnumerable<string> ignoreProperties = null)
         {
@@ -27,7 +30,7 @@ namespace App.Logging
 
             if (logEvent.Exception != null)
             {
-                Exception = new WdatpExceptionLogModel
+                Exception = new ExceptionLogModel
                 {
                     Type = logEvent.Exception.GetType().ToString(),
                     Message = logEvent.Exception.Message,
@@ -49,12 +52,12 @@ namespace App.Logging
         public string Message { get; set; }
 
         [JsonProperty("Exception")]
-        public WdatpExceptionLogModel Exception { get; set; }
+        public ExceptionLogModel Exception { get; set; }
 
         [JsonProperty("CustomFields")]
         public IReadOnlyDictionary<string, LogEventPropertyValue> CustomFields { get; set; }
 
-        public class WdatpExceptionLogModel
+        public class ExceptionLogModel
         {
             [JsonProperty("Type")]
             public string Type { get; set; }

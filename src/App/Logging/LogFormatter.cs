@@ -11,7 +11,10 @@ namespace App.Logging
     using Serilog.Formatting;
     using Serilog.Formatting.Json;
 
-    public class LogFormatter : ITextFormatter
+    /// <summary>
+    /// A simple log formatter that will be used to print log messages in a JSON format.
+    /// </summary>
+    internal class LogFormatter : ITextFormatter
     {
         protected readonly JsonSerializer _serializer;
 

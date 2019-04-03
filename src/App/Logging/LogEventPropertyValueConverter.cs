@@ -11,7 +11,10 @@ namespace App.Logging
     using Serilog.Events;
     using Serilog.Formatting.Json;
 
-    public class LogEventPropertyValueConverter : JsonConverter<LogEventPropertyValue>
+    /// <summary>
+    /// Converter used to take a Serilog event and write it as a Json object.
+    /// </summary>
+    internal class LogEventPropertyValueConverter : JsonConverter<LogEventPropertyValue>
     {
         private readonly JsonValueFormatter _jsonValueFormatter = new JsonValueFormatter();
 
