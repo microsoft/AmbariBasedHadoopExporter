@@ -13,7 +13,6 @@ namespace App
     using App.Services;
     using Infrastructure.Configuration;
     using Infrastructure.Extensions;
-    using Infrastructure.Utils;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Serilog;
