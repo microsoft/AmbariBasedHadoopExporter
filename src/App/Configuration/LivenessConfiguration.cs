@@ -21,7 +21,5 @@ namespace App.Configuration
         /// Gets or sets the liveness file path that Kubernetes will access to validate the pod's health.
         /// </summary>
         internal string LivenessFilePath { get; set; }
-
-        private string KubernetesDefaultLivenessFilePath => "/tmp/healthy";
     }
 }
