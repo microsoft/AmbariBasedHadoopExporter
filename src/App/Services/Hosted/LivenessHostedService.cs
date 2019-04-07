@@ -62,11 +62,13 @@ namespace App.Services.Hosted
         {
             try
             {
+                _logger.LogInformation("Running HealthCheck.");
+
                 var content = await _contentProvider.GetResponseContentAsync(_clusterExporterConfiguration.AmbariServerUri);
                 var clusters = JsonConvert.DeserializeObject<Clusters>(content);
 
                 // Creating a temporary file which notify Kubernetes that we're healthy.
-                File.Create("/tmp/healthy").Close();
+                File.Create(_configuration.LivenessFilePath == null ? "/tmp/healthy" : _configuration.LivenessFilePath).Close();
             }
             catch (Exception e)
             {
