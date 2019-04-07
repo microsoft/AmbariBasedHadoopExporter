@@ -1,0 +1,20 @@
+{{- if .Values.prometheus.monitor.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "ambari-based-hadoop-exporter.fullname" . }}
+  namespace: {{ .Values.prometheus.monitor.namespace }}
+  labels:
+{{ toYaml .Values.prometheus.monitor.additionalLabels | indent 4 }}
+spec:
+  endpoints:
+    - port: metrics
+      interval: 15s
+      scrapeTimeout: 10s
+      honorLabels: true
+  namespaceSelector:
+    any: true
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+{{- end }}

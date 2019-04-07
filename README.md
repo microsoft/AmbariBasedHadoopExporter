@@ -20,6 +20,10 @@ The exporter was deployed on our Kubernetes cluster running [init-container](htt
 
 Every service requires settings file to run, an example of full settings file can be found [here](test\ComponentTests\appsettings.json). But, since we're using Kubernetes as our orchestrator, we can leverage  [helm](https://github.com/helm/charts) to inject those values during deployment as environment variables.<br>
 
+## Prerequisites
+1. Install [init-container](https://github.com/Hexadite/acs-keyvault-agent) in your cluster for Azure Key Vault integration.
+2. Edit the following:
+   1. 
 ## Authentication details
 The exporters authenticate against an Ambari serve, thus, we need to have an authenticated session against the Ambari server. As mentioned earlier, we're running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles the acquisition of our Ambari credentials.
 

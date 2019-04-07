@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "ambari-based-hadoop-exporter.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+    helm.sh/chart: {{ template "ambari-based-hadoop-exporter.chart" . }}
+    helm.sh/chart-version: {{ .Chart.Version }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- if .Values.dataCenter }}
+    data-center: {{ .Values.dataCenter }}
+    {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: metrics
+  selector:
+    app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}

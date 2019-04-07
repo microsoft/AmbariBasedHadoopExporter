@@ -1,0 +1,66 @@
+# ! required by user !
+# nameOverride: my-service-name
+# ! required by user !
+# dataCenter: my-data-center
+
+###
+# Deployment
+###
+replicaCount: 1
+terminationGracePeriodSeconds: 60
+
+###
+# Service
+###
+service:
+  type: ClusterIP
+  port: 9561                              # Incoming port
+  targetPort: 9561                        # Port inside the pod/container
+  annotations:
+    prometheus.io/scrape: "true"
+
+image:
+  # ! required by user !
+  # acrUrl: myacr.url.com
+  # ! required by user !
+  # imageName: myimage
+  # ! required by user !
+  # tag: latest
+  pullPolicy: IfNotPresent
+
+# ! required by user !
+#resources:
+#  limits:
+#    cpu: 500m
+#    memory: 512Mi
+#  requests:
+#    cpu: 500m
+#    memory: 512Mi
+
+###
+# Health monitoring
+###
+livenessProbe:
+  isHttp: false
+  enabled: true
+  exec:
+    command:
+      - rm
+      - /tmp/healthy
+  initialDelaySeconds: 75
+  periodSeconds: 120
+  timeoutSeconds: 5
+
+readinessProbe:
+  enabled: false
+
+###
+# Prometheus
+###
+prometheus:
+  monitor:
+    enabled: true
+    # ! required by user !
+    # namespace: YOUR_NAMESPACE
+    additionalLabels:
+      prometheus: kube-prometheus

@@ -1,0 +1,9 @@
+apiVersion: v1
+appVersion: "1.0"
+description: A Helm chart for the Ambari-based Hadoop exporter
+name: ambari-based-hadoop-exporter
+version: 0.0.1
+keywords:
+- ambari-based-hadoop-exporter
+- prometheus
+- exporter

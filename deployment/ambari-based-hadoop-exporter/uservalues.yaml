@@ -1,0 +1,78 @@
+###
+# Required values
+###
+nameOverride: ambari-exporter
+dataCenter: OPTIONAL_YOUR_DATA_CENTER
+namespace: YOUR_NAMESPACE
+
+###
+# Deployment
+###
+
+###
+# Service
+###
+image:
+  acrUrl: YOUR_ACR_URL                       # This should be the value of your acr
+  imageName: YOUR_IMAGE_NAME
+  tag: latest
+  pullPolicy: Always
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+###
+# Health monitoring
+###
+
+###
+# Prometheus
+###
+prometheus:
+  monitor:
+    enabled: false
+    namespace: YOUR_NAMESPACE
+
+###
+# Init Container
+###
+keyvault:
+  enabled: true
+  acsKVAgent:
+    image:
+      name: acskvagent
+      tag: "1.2-msisupported"
+  secretsMountPath: /secrets
+  clusterServicePrincipalPath: /etc/kubernetes/azure.json
+  vaultUrl: YOUR_KEY_VAULT_URL
+  # Government Cloud
+  # azureAuthorityServer: 
+  # vaultResourceName
+  secrets: >-
+          AmbariConnectionUsername;
+          AmbariConnectionPassword
+
+###
+# Additional parameters
+###
+
+###
+# Environment variables
+###
+environmentVariables: {
+  Secrets__Path: "/secrets/secrets",                   # /secret/secretsMountPath
+  # Secrets__Mapping__SecretFileName (This is case sensitive!): "AmbariConnection--Username/Password"
+  Secrets__Mapping__AmbariConnectionUsername: "AmbariConnection--Username",
+  Secrets__Mapping__AmbariConnectionPassword: "AmbariConnection--Password",
+  
+  BaseExporterConfiguration__ClusterName: "YOUR_CLUSTER_NAME",
+  BaseExporterConfiguration__AmbariServerUri: "https://YOUR.CLUSTER.URL/api/v1/clusters",
+  #BaseExporterConfiguration__DefaultLabels__NameOfYourLabel: "Value of your label",
+  PrometheusExporterConfiguration__Port: "9561",       # This should be the value of service.targetPort
+  LivenessConfiguration__SamplingPeriodInSeconds: 60   # This should be smaller than livenessProbe.initialDelaySeconds and livenessProbe.periodSeconds
+}
