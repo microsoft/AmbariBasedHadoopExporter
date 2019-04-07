@@ -46,6 +46,7 @@ namespace ComponentTests
                 {
                     // Adding configuration and services
                     services.AddAppConfigurations(hostContext.Configuration);
+                    services.AddAppServices(hostContext.Configuration);
                 })
                 .UseConsoleLifetime()
                 .Build();

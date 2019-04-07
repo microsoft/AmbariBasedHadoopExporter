@@ -30,6 +30,9 @@ namespace App.Services
             services.Configure<PrometheusExporterConfiguration>(configuration.GetSection("PrometheusExporterConfiguration"));
             services.AddSingleton<IValidatableConfiguration>(resolver =>
                 resolver.GetRequiredService<IOptions<PrometheusExporterConfiguration>>().Value);
+            services.Configure<LivenessConfiguration>(configuration.GetSection("LivenessConfiguration"));
+            services.AddSingleton<IValidatableConfiguration>(resolver =>
+                resolver.GetRequiredService<IOptions<LivenessConfiguration>>().Value);
 
             services.AddCoreConfiguration(configuration);
             services.AddInfrastructureConfiguration(configuration);
@@ -38,6 +41,7 @@ namespace App.Services
         public static void AddAppServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddHostedService<PrometheusExporterHostedService>();
+            services.AddHostedService<LivenessHostedService>();
 
             services.AddCoreServices(configuration);
             services.AddInfrastructureServices(configuration);
