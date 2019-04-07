@@ -15,6 +15,6 @@ namespace App.Configuration
         /// </summary>
         [Required]
         [Range(0, int.MaxValue)]
-        public int SamplingPeriodInMinutes { get; set; }
+        public int SamplingPeriodInSeconds { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace App.UnitTests.Configurations
             {
                 new LivenessConfiguration
                 {
-                    SamplingPeriodInMinutes = -1,
+                    SamplingPeriodInSeconds = -1,
                 },
                 false,
             },
@@ -28,7 +28,7 @@ namespace App.UnitTests.Configurations
             {
                 new LivenessConfiguration
                 {
-                    SamplingPeriodInMinutes = 0,
+                    SamplingPeriodInSeconds = 0,
                 },
                 false,
             },
@@ -36,7 +36,7 @@ namespace App.UnitTests.Configurations
             {
                 new LivenessConfiguration
                 {
-                    SamplingPeriodInMinutes = 10,
+                    SamplingPeriodInSeconds = 10,
                 },
                 true,
             },
