@@ -21,7 +21,7 @@ namespace App.Services.Hosted
     /// <summary>
     /// Liveness hosted servie that will be used by Kubernetes to report the status of our pod.
     /// </summary>
-    public class LivenessHostedService : IHostedService
+    public class LivenessHostedService : IHostedService, IDisposable
     {
         private readonly IContentProvider _contentProvider;
         private readonly ClusterExporterConfiguration _clusterExporterConfiguration;
@@ -43,15 +43,21 @@ namespace App.Services.Hosted
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            _timer?.Dispose();
+            _logger.LogInformation($"Starting the service - initializing and starting the timer.");
             _timer = new Timer(HealthCheck, null, TimeSpan.Zero, TimeSpan.FromSeconds(_configuration.SamplingPeriodInSeconds));
             return Task.CompletedTask;
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
         {
-            _timer?.Dispose();
+            _logger.LogInformation($"Stopping the service - stopping the timer.");
+            _timer?.Change(Timeout.Infinite, 0);
             return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            _timer?.Dispose();
         }
 
         /// <summary>

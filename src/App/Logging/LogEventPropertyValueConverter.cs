@@ -28,6 +28,7 @@ namespace App.Logging
             }
         }
 
+        // This function should never be called.
         public override LogEventPropertyValue ReadJson(
             JsonReader reader,
             Type objectType,
