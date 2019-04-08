@@ -11,16 +11,12 @@ namespace Infrastructure.Extensions
     using Infrastructure.Configuration;
     using Infrastructure.Providers.Concrete;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
 
     /// <summary>
     /// Extension methods for <see cref="IConfigurationBuilder"/> that will add secrets to it.
     /// </summary>
     public static class SecretConfigurationExtension
     {
-        private static ILogger logger;
-
         /// <summary>
         /// Adding secrets' mapping as a configuration to the configuration builder.
         ///
@@ -39,22 +35,19 @@ namespace Infrastructure.Extensions
             this IConfigurationBuilder configurationBuilder,
             SecretsConfigurationSection secretsConfigurationSection)
         {
-            if (secretsConfigurationSection == null ||
-                secretsConfigurationSection.Mapping == null ||
+            if (secretsConfigurationSection?.Mapping == null ||
                 secretsConfigurationSection.Mapping.Count == 0)
             {
                 throw new ArgumentException($"Invalid arguments were passes." +
                                             $"SecretsConfigurationSection - cannot be null: {secretsConfigurationSection}." +
-                                            $"SecretsConfigurationSection.Mapping - cannot be null or empty: {secretsConfigurationSection.Mapping}.");
+                                            $"SecretsConfigurationSection.Mapping - cannot be null or empty: {secretsConfigurationSection?.Mapping}.");
             }
 
-            logger = NullLogger.Instance;
-            IReadOnlyDictionary<string, string> secretNameToValueMap;
             var operationName = $"{nameof(SecretConfigurationExtension)}::{nameof(AddSecretProvider)} -";
             var secrets = secretsConfigurationSection.Mapping.Keys.Cast<string>();
 
-            secretNameToValueMap = new FileSecretProvider(secretsConfigurationSection.Path, secrets, logger).GetSecretNameToValueMap();
-            logger.LogInformation($"{operationName} resolved {secretNameToValueMap.Count} secrets.");
+            var secretNameToValueMap = new FileSecretProvider(secretsConfigurationSection.Path, secrets).GetSecretNameToValueMap();
+            Console.WriteLine($"{operationName} resolved {secretNameToValueMap.Count} secrets.");
 
             // Creating a map that will represent the configuration.
             var configToSecretValueMap = new Dictionary<string, string>();
@@ -63,7 +56,7 @@ namespace Infrastructure.Extensions
                 var map = MapConfigToSecretValueWithSecretAsKey(secretName, secretsConfigurationSection.Mapping, secretNameToValueMap);
                 foreach (var mapEntry in map)
                 {
-                    logger.LogInformation($"{operationName} mapped the following: '{secretName}' -> '{mapEntry.Key}'.");
+                    Console.WriteLine($"{operationName} mapped the following: '{secretName}' -> '{mapEntry.Key}'.");
                     configToSecretValueMap.Add(mapEntry.Key, mapEntry.Value);
                 }
             }

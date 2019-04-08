@@ -1,0 +1,19 @@
+﻿{
+  "href": "http://path.net:8080/api/v1/clusters",
+  "items": [
+    {
+      "href": "http://path.net:8080/api/v1/clusters/testCluster",
+      "Clusters": {
+        "cluster_name": "testCluster",
+        "version": "HDP-2.6"
+      }
+    },
+    {
+      "href": "http://path.net:8080/api/v1/clusters/testClusterTwo",
+      "Clusters": {
+        "cluster_name": "testClusterTwo",
+        "version": "HDP-2.6"
+      }
+    }
+  ]
+}

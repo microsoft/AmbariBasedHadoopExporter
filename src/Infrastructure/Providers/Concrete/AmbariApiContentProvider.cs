@@ -48,13 +48,15 @@ namespace Infrastructure.Providers.Concrete
 
             try
             {
-                var response = await _httpClient.GetAsync(uriEndpoint);
-                if (response.StatusCode != HttpStatusCode.OK)
+                using (var response = await _httpClient.GetAsync(uriEndpoint))
                 {
-                    throw new HttpRequestException($"Status code: {response.StatusCode} isnt Ok.");
-                }
+                    if (response.StatusCode != HttpStatusCode.OK)
+                    {
+                        throw new HttpRequestException($"Status code: {response.StatusCode} isnt Ok.");
+                    }
 
-                return await response.Content.ReadAsStringAsync();
+                    return await response.Content.ReadAsStringAsync();
+                }
             }
             catch (Exception e)
             {

@@ -5,30 +5,27 @@ However, you may want to export AMS's collected metrics to a different source li
 > Note - there are open source Prometheus exporters for some Hadoop components like YARN and HDFS, but, Ambari gives you a single point of access to multiple collected metrics for services, components and configuration. Thus our effort building an exporter based on its API.
 
 
-
-# Tested environment
-We've tested our exporter against an Azure HDInsight cluster 3.6 running HDP 2.6. <br>
+## Tested environment
+We're running on Azure environment, using Azure HDInsight cluster 3.6 running HDP 2.6. <br>
 The exporter was deployed on our Kubernetes cluster running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles all secrets acquisition from an Azure Key Vault and injection to our containers.
 
 
-
-# Build with Docker
+## Build with Docker
 1. Clone the project and go to its root folder.
-2. Run `docker build . -t ambari-exporter`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
+2. Run `docker build . -t ambari-exporter:1.0.0`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
 
-# Deploying to Kubernetes
-## Configuration details
+
+## Deploying to Kubernetes
 Every service requires settings file to run, an example of full settings file can be found [here](test\ComponentTests\appsettings.json). But, since we're using Kubernetes as our orchestrator, we can leverage  [helm](https://github.com/helm/charts) to inject those values during deployment as environment variables.<br>
 
-## Authentication details
-The exporters authenticate against an Ambari serve, thus, we need to have an authenticated session against the Ambari server. As mentioned earlier, we're running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles the acquisition of our Ambari credentials.
+### Prerequisites
+Install [init-container](https://github.com/Hexadite/acs-keyvault-agent) in your cluster for Azure Key Vault integration. This is used to extract secrets in a secure way.
 
-## Helm charts
-TODO<br>
+### Deployment example
+View an example deployment helm chart [here](deployment\ambari-based-hadoop-exporter).
 
 
-
-# Dependencies
+## Dependencies
 All of the exporters are based on [Ambari's API](https://github.com/apache/ambari/blob/trunk/ambari-server/docs/api/v1/index.md). <br><br>
 Implementation dependencies:
 1. [Prometheus-net]([https://link](https://github.com/prometheus-net/prometheus-net)) - used to expose the API endpoint for Prometheus.
@@ -38,14 +35,11 @@ Implementation dependencies:
 5. [StyleCop](https://github.com/StyleCop/StyleCop) - for code formatting.
 
 
-
-
-# Support
+## Support
 For any issue, request, question please feel to create an issue, we'll be trying giving you the best support as possible.
 
 
-
-# Contributing
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us

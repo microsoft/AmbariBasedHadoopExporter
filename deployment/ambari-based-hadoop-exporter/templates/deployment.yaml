@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "ambari-based-hadoop-exporter.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+    helm.sh/chart: {{ template "ambari-based-hadoop-exporter.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ template "ambari-based-hadoop-exporter.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{required "acrUrl is missing" .Values.image.acrUrl }}/{{ required "ImageName is missing" .Values.image.imageName }}:{{ required "Tag" .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.service.targetPort }}
+              protocol: TCP
+          env:
+          {{- range $key, $value := .Values.environmentVariables }}
+            - name: "{{ $key }}"
+              value: "{{ $value }}"
+          {{- end }}
+          {{- if .Values.keyvault.enabled }}
+            - name: "SECRETS_PATH"
+              value: "/secrets{{ .Values.keyvault.secretsMountPath }}/"
+          {{- end }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+          {{- if .Values.livenessProbe.isHttp }}
+            httpGet:
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+              scheme: HTTP
+          {{- else }}
+            exec:
+              command: 
+{{ toYaml .Values.livenessProbe.exec.command  | indent 14 }}
+          {{- end }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+              scheme: HTTP
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          {{- end }}
+          resources:
+{{ required "missing resources" .Values.resources | toYaml | indent 12 }}
+          {{- if .Values.keyvault.enabled }}
+          volumeMounts:
+            - name: secrets-folder
+              mountPath: {{ .Values.keyvault.secretsMountPath }}
+              readOnly: true
+          {{- end }}
+      {{- if .Values.keyvault.enabled }}
+      initContainers:
+        - name: keyvault-agent
+          image: "{{ .Values.image.acrUrl }}/{{ .Values.keyvault.acsKVAgent.image.name }}:{{ .Values.keyvault.acsKVAgent.image.tag }}"
+          env:
+          - name: VAULT_BASE_URL
+            value: {{ .Values.keyvault.vaultUrl }}
+          - name: SECRETS_FOLDER
+            value: {{ .Values.keyvault.secretsMountPath }}
+          - name: USE_MSI
+            value: "true"
+          - name: SECRETS_KEYS
+            value: {{ .Values.keyvault.secrets }}
+            {{- if .Values.keyvault.azureAuthorityServer }}
+          - name: AZURE_AUTHORITY_SERVER
+            value: {{ .Values.keyvault.azureAuthorityServer }}
+            {{- end }}
+            {{- if .Values.keyvault.vaultResourceName }}
+          - name: VAULT_RESOURCE_NAME
+            value: {{ .Values.keyvault.vaultResourceName }}
+            {{- end }}
+          volumeMounts:
+          - name: secrets-folder
+            mountPath: {{ .Values.keyvault.secretsMountPath }}
+      volumes:
+        - name: secrets-folder
+          emptyDir:
+            medium: Memory  # we want the secrets to reside only in-memory
+      {{- end }}
+      {{- if .Values.podPriorityClass }}
+      priorityClassName: {{ .Values.podPriorityClass }}
+      {{- end }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
+{{- if .Values.additionalPodSpec }}
+{{ toYaml .Values.additionalPodSpec | indent 8 }}
+{{- end }}
