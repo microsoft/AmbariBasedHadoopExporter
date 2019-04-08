@@ -1,7 +1,10 @@
+###
+# Meta-data
+### 
 # ! required by user !
 # nameOverride: my-service-name
 # ! required by user !
-# dataCenter: my-data-center
+# namespace: your-namespace
 
 ###
 # Deployment

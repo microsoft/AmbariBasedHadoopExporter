@@ -1,9 +1,9 @@
 ###
-# Required values
-###
+# Meta-data
+### 
 nameOverride: ambari-exporter
-dataCenter: OPTIONAL_YOUR_DATA_CENTER
 namespace: YOUR_NAMESPACE
+dataCenter: YOUR_DATA_CENTER                # Optional
 
 ###
 # Deployment
