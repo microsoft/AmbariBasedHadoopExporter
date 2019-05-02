@@ -8,9 +8,6 @@ metadata:
     helm.sh/chart-version: {{ .Chart.Version }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    {{- if .Values.dataCenter }}
-    data-center: {{ .Values.dataCenter }}
-    {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
