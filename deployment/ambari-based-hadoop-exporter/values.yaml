@@ -3,7 +3,6 @@
 ### 
 # ! required by user !
 # namespace: your-namespace
-nameOverride: ambari-based-hadoop-exporter
 
 ###
 # Deployment

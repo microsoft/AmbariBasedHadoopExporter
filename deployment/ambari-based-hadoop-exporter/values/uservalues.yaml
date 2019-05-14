@@ -8,11 +8,11 @@ namespace: "ambari-based-hadoop-exporter"
 ###
 resources:
   limits:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 250m
+    memory: 256Mi
   requests:
-    cpu: 500m
-    memory: 512Mi
+    cpu: 250m
+    memory: 256Mi
 
 ###
 # Service Monitor (via Prometheus operator)
@@ -31,7 +31,7 @@ keyvault:
       tag: "1.2-msisupported"
   secretsMountPath: /secrets
   clusterServicePrincipalPath: /etc/kubernetes/azure.json
-  vaultUrl: https://your_key_vault_name.vault.azure.net/
+  vaultUrl: https://your_key_vault_name.vault.azure.net/              # TODO: Fill
   # Government Cloud
   # azureAuthorityServer: 
   # vaultResourceName
@@ -49,6 +49,6 @@ environmentVariables:
   - name: "Secrets__Mapping__username_secret_name"
     value: "AmbariConnection__Username"
   - name: "BaseExporterConfiguration__ClusterName"
-    value: "testCluster"                                             
+    value: "testCluster"                                              # TODO: Fill       
   - name: "BaseExporterConfiguration__AmbariServerUri"
-    value: "https://testCluster.azurehdinsight.net/api/v1/clusters"
+    value: "https://testCluster.azurehdinsight.net/api/v1/clusters"   # TODO: Fill
