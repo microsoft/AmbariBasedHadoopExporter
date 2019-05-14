@@ -2,8 +2,6 @@
 # Meta-data
 ### 
 # ! required by user !
-# nameOverride: my-service-name
-# ! required by user !
 # namespace: your-namespace
 
 ###
@@ -11,6 +9,7 @@
 ###
 replicaCount: 1
 terminationGracePeriodSeconds: 60
+
 
 ###
 # Service
@@ -23,12 +22,8 @@ service:
     prometheus.io/scrape: "true"
 
 image:
-  # ! required by user !
-  # acrUrl: myacr.url.com
-  # ! required by user !
-  # imageName: myimage
-  # ! required by user !
-  # tag: latest
+  name: solotomer/ambari-based-hadoop-exporter
+  tag: 1.0.0
   pullPolicy: IfNotPresent
 
 # ! required by user !
@@ -40,25 +35,12 @@ image:
 #    cpu: 500m
 #    memory: 512Mi
 
-###
-# Health monitoring
-###
-livenessProbe:
-  isHttp: false
-  enabled: true
-  exec:
-    command:
-      - rm
-      - /tmp/healthy
-  initialDelaySeconds: 75
-  periodSeconds: 120
-  timeoutSeconds: 5
-
-readinessProbe:
-  enabled: false
 
 ###
-# Prometheus
+# Service Monitor (via Prometheus operator):
+#   Since the exporter is relaying on external APIs it might take awhile to retrieve the information.
+#   The tested average scrape operation took 7 seconds in the worst case. If you expect longer scrape times
+#   please update these accordingly.
 ###
 prometheus:
   monitor:
@@ -67,3 +49,6 @@ prometheus:
     # namespace: YOUR_NAMESPACE
     additionalLabels:
       prometheus: kube-prometheus
+    endpoints:
+      interval: 15s
+      scrapeTimeout: 10s

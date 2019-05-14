@@ -9,8 +9,8 @@ metadata:
 spec:
   endpoints:
     - port: metrics
-      interval: 15s
-      scrapeTimeout: 10s
+      interval: {{ .Values.prometheus.monitor.endpoints.interval }}
+      scrapeTimeout: {{ .Values.prometheus.monitor.endpoints.scrapeTimeout }}
       honorLabels: true
   namespaceSelector:
     any: true
