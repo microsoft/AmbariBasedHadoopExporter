@@ -108,9 +108,13 @@ namespace App.Services.Hosted
                 IsSuccessful.Set(1);
                 TotalSuccessfulScrapeActivations.Inc();
             }
-            catch (Exception e)
+            catch (AggregateException ae)
             {
-                _logger.LogError($"{nameof(RunExportersAsync)} failed, {e.Message}");
+                foreach (var innerException in ae.Flatten().InnerExceptions)
+                {
+                    _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {innerException.Message}");
+                }
+
                 IsSuccessful.Set(0);
             }
             finally
