@@ -23,8 +23,8 @@ namespace App.Services.Hosted
     internal class PrometheusExporterHostedService : IHostedService
     {
         // Self monitoring metrics
-        internal readonly Counter TotalActivations;
-        internal readonly Counter TotalSuccessfulActivations;
+        internal readonly Counter TotalScrapeActivations;
+        internal readonly Counter TotalSuccessfulScrapeActivations;
         internal readonly Gauge IsSuccessful;
         internal readonly Histogram ScrapeTime;
 
@@ -45,11 +45,11 @@ namespace App.Services.Hosted
             _metricServer = new MetricServer(_configuration.Port);
 
             // Init metrics
-            TotalActivations = Metrics.CreateCounter(
+            TotalScrapeActivations = Metrics.CreateCounter(
                 "total_activations",
                 "Total activations of the exporter",
                 new CounterConfiguration() { SuppressInitialValue = true });
-            TotalSuccessfulActivations = Metrics.CreateCounter(
+            TotalSuccessfulScrapeActivations = Metrics.CreateCounter(
                 "total_success_activations",
                 "Total successful activation of the exporter",
                 new CounterConfiguration() {SuppressInitialValue = true });
@@ -95,7 +95,7 @@ namespace App.Services.Hosted
 
             try
             {
-                TotalActivations.Inc();
+                TotalScrapeActivations.Inc();
 
                 var tasks = new List<Task>();
                 foreach (var exporter in _exporters)
@@ -106,7 +106,7 @@ namespace App.Services.Hosted
 
                 await Task.WhenAll(tasks);
                 IsSuccessful.Set(1);
-                TotalSuccessfulActivations.Inc();
+                TotalSuccessfulScrapeActivations.Inc();
             }
             catch (Exception e)
             {

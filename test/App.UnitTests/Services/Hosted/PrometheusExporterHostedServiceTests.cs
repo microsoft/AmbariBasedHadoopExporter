@@ -55,8 +55,8 @@ namespace App.UnitTests.Services.Hosted
 
             // Validating metrics
             _prometheusExporterService.ScrapeTime.Should().NotBeNull();
-            _prometheusExporterService.TotalActivations.Value.Should().Be(5);
-            _prometheusExporterService.TotalSuccessfulActivations.Value.Should().Be(5);
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(5);
+            _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
 
             // Adding invalid exporter
             var invalidExporter = new Mock<IExporter>();
@@ -70,8 +70,8 @@ namespace App.UnitTests.Services.Hosted
 
             // Validating metrics
             _prometheusExporterService.ScrapeTime.Should().NotBeNull();
-            _prometheusExporterService.TotalActivations.Value.Should().Be(10);
-            _prometheusExporterService.TotalSuccessfulActivations.Value.Should().Be(5);
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(10);
+            _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
 
             // Removing valid exporter
             exporterEnumerator.Remove(validExporter.Object);
@@ -83,8 +83,8 @@ namespace App.UnitTests.Services.Hosted
 
             // Validating metrics
             _prometheusExporterService.ScrapeTime.Should().NotBeNull();
-            _prometheusExporterService.TotalActivations.Value.Should().Be(15);
-            _prometheusExporterService.TotalSuccessfulActivations.Value.Should().Be(5);
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(15);
+            _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
         }
     }
 }
