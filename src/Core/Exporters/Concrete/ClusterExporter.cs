@@ -51,6 +51,7 @@ namespace Core.Exporters.Concrete
         /// <inheritdoc/>
         public async Task ExportMetricsAsync()
         {
+            var content = string.Empty;
             try
             {
                 using (_logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name }, }))
@@ -58,7 +59,7 @@ namespace Core.Exporters.Concrete
                     _logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
                     var stopWatch = Stopwatch.StartNew();
 
-                    var content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
+                    content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
                     var clusterComponent = JsonConvert.DeserializeObject<ClusterComponent>(content);
 
                     var hostsTasksList = ExportHostsMetricsAsync(clusterComponent.HostEntryList);
@@ -104,7 +105,7 @@ namespace Core.Exporters.Concrete
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"Failed to export metrics.");
+                _logger.LogError(e, $"{nameof(ClusterExporter)}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Content: {content}");
                 throw;
             }
         }
@@ -128,7 +129,7 @@ namespace Core.Exporters.Concrete
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"Failed to export metrics.");
+                _logger.LogError(e, $"{nameof(ClusterExporter)}.{nameof(ExportHostsMetricsAsync)}: Failed to export metrics.");
                 throw;
             }
         }
@@ -146,6 +147,7 @@ namespace Core.Exporters.Concrete
                                             $"HostName - cannot be null/empty: {hostName}.");
             }
 
+            var content = string.Empty;
             using (_logger.BeginScope(new Dictionary<string, object> { { "HostName", hostName }, }))
             {
                 try
@@ -153,7 +155,7 @@ namespace Core.Exporters.Concrete
                     _logger.LogInformation($"{nameof(ExportHostMetricsAsync)} Started.");
                     var stopWatch = Stopwatch.StartNew();
 
-                    var content = await _contentProvider.GetResponseContentAsync($"{_exporterConfiguration.HostsEndpoint}/{hostName}");
+                    content = await _contentProvider.GetResponseContentAsync($"{_exporterConfiguration.HostsEndpoint}/{hostName}");
                     var component = JsonConvert.DeserializeObject<ClusterHostComponent>(content);
 
                     // Constructing labels
@@ -205,7 +207,7 @@ namespace Core.Exporters.Concrete
                 }
                 catch (Exception e)
                 {
-                    _logger.LogError(e, $"Failed to export metrics for host {hostName}.");
+                    _logger.LogError(e, $"{nameof(ClusterExporter)}.{nameof(ExportMetricsAsync)}: Failed to export metrics for host {hostName}. Content: {content}");
                     throw;
                 }
             }

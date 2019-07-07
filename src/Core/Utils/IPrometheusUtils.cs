@@ -17,7 +17,7 @@ namespace Core.Utils
         /// <summary>
         /// Reporting a Gauge to prometheus and persisting it to the input dictionary.
         /// </summary>
-        /// <param name="cache">Collectiong storing all reported Gauges.</param>
+        /// <param name="cache">Collection storing all reported Gauges.</param>
         /// <param name="metricName">Metric name.</param>
         /// <param name="metricValue">Metric value.</param>
         /// <param name="labels">DefaultLabels of the metric.</param>
