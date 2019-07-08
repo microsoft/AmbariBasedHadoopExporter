@@ -3,15 +3,14 @@
 // Licensed under the MIT License.
 // </copyright>
 
-using System;
-using FluentAssertions;
-
 namespace App.UnitTests.Services.Hosted
 {
+    using System;
     using System.Collections.Generic;
     using App.Configuration;
     using App.Services.Hosted;
     using Core.Exporters.Abstract;
+    using FluentAssertions;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Moq;
@@ -44,7 +43,7 @@ namespace App.UnitTests.Services.Hosted
         public async void Invoking_Successful_And_Invalid_Scrapes_Should_Increase_Accordingly()
         {
             var validExporter = new Mock<IExporter>();
-            var exporterEnumerator = new List<IExporter> { validExporter.Object};
+            var exporterEnumerator = new List<IExporter> { validExporter.Object };
             _exporters.Setup(f => f.GetEnumerator()).Returns(() => exporterEnumerator.GetEnumerator());
 
             for (int i = 0; i < 5; i++)
@@ -73,6 +72,21 @@ namespace App.UnitTests.Services.Hosted
             _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(10);
             _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
 
+            // Adding invalid aggregated exception
+            var invalidAggregatedExporter = new Mock<IExporter>();
+            invalidAggregatedExporter.Setup(f => f.ExportMetricsAsync()).Throws(new AggregateException("Test exception"));
+            exporterEnumerator.Add(invalidAggregatedExporter.Object);
+            for (int i = 0; i < 5; i++)
+            {
+                await _prometheusExporterService.RunExportersAsync();
+                _prometheusExporterService.IsSuccessful.Value.Should().Be(0);
+            }
+
+            // Validating metrics
+            _prometheusExporterService.ScrapeTime.Should().NotBeNull();
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(15);
+            _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
+
             // Removing valid exporter
             exporterEnumerator.Remove(validExporter.Object);
             for (int i = 0; i < 5; i++)
@@ -83,7 +97,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Validating metrics
             _prometheusExporterService.ScrapeTime.Should().NotBeNull();
-            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(15);
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(20);
             _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
         }
     }
