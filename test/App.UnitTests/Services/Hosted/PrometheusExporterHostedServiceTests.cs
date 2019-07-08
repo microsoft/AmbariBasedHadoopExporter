@@ -3,15 +3,14 @@
 // Licensed under the MIT License.
 // </copyright>
 
-using System;
-using FluentAssertions;
-
 namespace App.UnitTests.Services.Hosted
 {
+    using System;
     using System.Collections.Generic;
     using App.Configuration;
     using App.Services.Hosted;
     using Core.Exporters.Abstract;
+    using FluentAssertions;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Moq;
@@ -44,7 +43,7 @@ namespace App.UnitTests.Services.Hosted
         public async void Invoking_Successful_And_Invalid_Scrapes_Should_Increase_Accordingly()
         {
             var validExporter = new Mock<IExporter>();
-            var exporterEnumerator = new List<IExporter> { validExporter.Object};
+            var exporterEnumerator = new List<IExporter> { validExporter.Object };
             _exporters.Setup(f => f.GetEnumerator()).Returns(() => exporterEnumerator.GetEnumerator());
 
             for (int i = 0; i < 5; i++)
@@ -60,7 +59,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Adding invalid exporter
             var invalidExporter = new Mock<IExporter>();
-            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new Exception("Test exception"));
+            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new AggregateException("Test exception"));
             exporterEnumerator.Add(invalidExporter.Object);
             for (int i = 0; i < 5; i++)
             {

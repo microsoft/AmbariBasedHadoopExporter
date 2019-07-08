@@ -52,7 +52,7 @@ namespace App.Services.Hosted
             TotalSuccessfulScrapeActivations = Metrics.CreateCounter(
                 "total_success_activations",
                 "Total successful activation of the exporter",
-                new CounterConfiguration() {SuppressInitialValue = true });
+                new CounterConfiguration() { SuppressInitialValue = true });
             IsSuccessful = Metrics.CreateGauge(
                 "is_successful_scrape",
                 "Indication to if the last scrape was successful",
