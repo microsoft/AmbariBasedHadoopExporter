@@ -29,10 +29,9 @@ namespace Core.Exporters.Concrete
             IPrometheusUtils prometheusUtils,
             IOptions<HdfsDataNodeExporterConfiguration> exporterConfiguration,
             ILogger<HdfsDataNodeExporter> logger)
-            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(HdfsDataNodeComponent), logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(HdfsDataNodeComponent), logger)
         {
             _exporterConfiguration = exporterConfiguration.Value;
-            Collectors = new ConcurrentDictionary<string, Collector>();
         }
 
         /// <inheritdoc/>

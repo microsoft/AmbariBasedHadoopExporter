@@ -30,10 +30,9 @@ namespace Core.Exporters.Concrete
             IPrometheusUtils prometheusUtils,
             IOptions<HdfsNameNodeExporterConfiguration> exporterConfiguration,
             ILogger<HdfsNameNodeExporter> logger)
-            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(HdfsNameNodeComponent), logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(HdfsNameNodeComponent), logger)
         {
             _exporterConfiguration = exporterConfiguration.Value;
-            Collectors = new ConcurrentDictionary<string, Collector>();
         }
 
         /// <inheritdoc/>
@@ -45,10 +44,10 @@ namespace Core.Exporters.Concrete
 
                 // Constructing labels
                 var labels = new Dictionary<string, string>()
-                        {
-                            { "ClusterName", hdfsNameNodeComponent.Info.ClusterName },
-                            { "hdfsNameNodeComponent", hdfsNameNodeComponent.Info.ComponentName },
-                        };
+                {
+                    { "ClusterName", hdfsNameNodeComponent.Info.ClusterName },
+                    { "Component", hdfsNameNodeComponent.Info.ComponentName },
+                };
                 labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
                 // General info

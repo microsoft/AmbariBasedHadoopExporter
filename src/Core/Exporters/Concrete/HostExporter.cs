@@ -24,7 +24,7 @@ namespace Core.Exporters.Concrete
             IPrometheusUtils prometheusUtils,
             IOptions<HostExporterConfiguration> configuration,
             ILogger logger)
-            : base(contentProvider, prometheusUtils, configuration.Value.UriEndpoint, typeof(ClusterHostComponent), logger)
+            : base(contentProvider, prometheusUtils, configuration.Value, typeof(ClusterHostComponent), logger)
         {
             _hostConfiguration = configuration.Value;
         }

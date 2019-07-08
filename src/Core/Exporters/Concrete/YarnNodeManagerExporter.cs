@@ -33,11 +33,11 @@ namespace Core.Exporters.Concrete
             IPrometheusUtils prometheusUtils,
             IOptions<YarnNodeManagerExporterConfiguration> exporterConfiguration,
             ILogger<YarnNodeManagerExporter> logger)
-            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(NodeManagerComponent), logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(NodeManagerComponent), logger)
         {
             _exporterConfiguration = exporterConfiguration.Value;
         }
-        
+
         /// <inheritdoc/>
         protected override async Task ReportMetrics(object component)
         {

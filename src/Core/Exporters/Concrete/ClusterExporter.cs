@@ -31,7 +31,7 @@ namespace Core.Exporters.Concrete
             IOptions<ClusterExporterConfiguration> exporterConfiguration,
             IOptions<HostExporterConfiguration> hostExporterConfiguration,
             ILogger<ClusterExporter> logger)
-            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(ClusterComponent), logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(ClusterComponent), logger)
         {
             _clusterConfiguration = exporterConfiguration.Value;
             _hostExporter = new HostExporter(contentProvider, prometheusUtils, hostExporterConfiguration, logger);

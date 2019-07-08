@@ -10,6 +10,7 @@ namespace Core.Exporters.Concrete
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
+    using Core.Configurations.Exporters;
     using Core.Exporters.Abstract;
     using Core.Providers;
     using Core.Utils;
@@ -21,20 +22,20 @@ namespace Core.Exporters.Concrete
     {
         protected readonly IContentProvider ContentProvider;
         protected readonly IPrometheusUtils PrometheusUtils;
-        protected readonly string EndpointUrl;
+        protected readonly BaseExporterConfiguration BaseConfiguration;
         protected readonly ILogger Logger;
         protected readonly Type ComponentType;
 
         protected BaseExporter(
             IContentProvider contentProvider,
             IPrometheusUtils prometheusUtils,
-            string endpointUrl,
+            BaseExporterConfiguration baseConfiguration,
             Type componentType,
             ILogger logger)
         {
             ContentProvider = contentProvider;
             PrometheusUtils = prometheusUtils;
-            EndpointUrl = endpointUrl;
+            BaseConfiguration = baseConfiguration;
             ComponentType = componentType;
             Logger = logger;
             Collectors = new ConcurrentDictionary<string, Collector>();
@@ -51,19 +52,17 @@ namespace Core.Exporters.Concrete
         /// <returns>Task</returns>
         public async Task ExportMetricsAsync(string endpointUrlSuffix = null)
         {
-            var fullEndpointUri = EndpointUrl;
+            var fullEndpointUri = BaseConfiguration.UriEndpoint;
             if (endpointUrlSuffix != null)
             {
                 // Valid suffix
-                if (endpointUrlSuffix != string.Empty && endpointUrlSuffix.StartsWith("/"))
-                {
-                    fullEndpointUri += endpointUrlSuffix;
-                }
-                else
+                if (endpointUrlSuffix == string.Empty || endpointUrlSuffix.StartsWith("/"))
                 {
                     throw new ArgumentException(
                         $"{nameof(ExportMetricsAsync)} recieved an invalid endpoint url suffix - {endpointUrlSuffix}.");
                 }
+
+                fullEndpointUri += $"/{endpointUrlSuffix}";
             }
 
             var content = string.Empty;
@@ -81,7 +80,7 @@ namespace Core.Exporters.Concrete
             }
             catch (Exception e)
             {
-                Logger.LogError(e, $"{GetType().Name}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Content: {content}");
+                Logger.LogError(e, $"{GetType().Name}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Labels: {BaseConfiguration.DefaultLabels}, Content length: {content.Length}");
                 throw;
             }
             finally

@@ -34,7 +34,7 @@ namespace Core.Exporters.Concrete
             IPrometheusUtils prometheusUtils,
             IOptions<YarnResourceManagerExporterConfiguration> exporterConfiguration,
             ILogger<YarnResourceManagerExporter> logger)
-            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(ResourceManagerComponent), logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(ResourceManagerComponent), logger)
         {
             _exporterConfiguration = exporterConfiguration.Value;
         }
