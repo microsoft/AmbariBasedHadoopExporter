@@ -22,6 +22,13 @@ namespace App.Services.Hosted
     /// </summary>
     internal class PrometheusExporterHostedService : IHostedService
     {
+        // Self monitoring metrics
+        internal readonly Counter TotalScrapeActivations;
+        internal readonly Counter TotalSuccessfulScrapeActivations;
+        internal readonly Gauge IsSuccessful;
+        internal readonly Histogram ScrapeTime;
+
+        // Private members
         private readonly IEnumerable<IExporter> _exporters;
         private readonly PrometheusExporterConfiguration _configuration;
         private readonly MetricServer _metricServer;
@@ -36,6 +43,24 @@ namespace App.Services.Hosted
             _configuration = configuration.Value;
             _logger = logger;
             _metricServer = new MetricServer(_configuration.Port);
+
+            // Init metrics
+            TotalScrapeActivations = Metrics.CreateCounter(
+                "total_activations",
+                "Total activations of the exporter",
+                new CounterConfiguration() { SuppressInitialValue = true });
+            TotalSuccessfulScrapeActivations = Metrics.CreateCounter(
+                "total_success_activations",
+                "Total successful activation of the exporter",
+                new CounterConfiguration() {SuppressInitialValue = true });
+            IsSuccessful = Metrics.CreateGauge(
+                "is_successful_scrape",
+                "Indication to if the last scrape was successful",
+                new GaugeConfiguration() { SuppressInitialValue = true });
+            ScrapeTime = Metrics.CreateHistogram(
+                "scrape_time",
+                "Total scraping time of the exporter",
+                new HistogramConfiguration() { SuppressInitialValue = true });
         }
 
         /// <inheritdoc/>
@@ -64,19 +89,42 @@ namespace App.Services.Hosted
         /// Registering all exporters that implement IExporter interface.
         /// </summary>
         /// <returns>Completed task.</returns>
-        private async Task RunExportersAsync()
+        internal async Task RunExportersAsync()
         {
             var stopwatch = Stopwatch.StartNew();
 
-            var tasks = new List<Task>();
-            foreach (var exporter in _exporters)
+            try
             {
-                var task = exporter.ExportMetricsAsync();
-                tasks.Add(task);
-            }
+                TotalScrapeActivations.Inc();
 
-            await Task.WhenAll(tasks);
-            _logger.LogInformation($"{nameof(RunExportersAsync)} took {stopwatch.Elapsed}.");
+                var tasks = new List<Task>();
+                foreach (var exporter in _exporters)
+                {
+                    var task = exporter.ExportMetricsAsync();
+                    tasks.Add(task);
+                }
+
+                await Task.WhenAll(tasks);
+                IsSuccessful.Set(1);
+                TotalSuccessfulScrapeActivations.Inc();
+            }
+            catch (AggregateException ae)
+            {
+                foreach (var innerException in ae.Flatten().InnerExceptions)
+                {
+                    _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {innerException.Message}");
+                }
+
+                IsSuccessful.Set(0);
+            }
+            finally
+            {
+                stopwatch.Stop();
+                _logger.LogInformation($"{nameof(RunExportersAsync)} took {stopwatch.Elapsed}.");
+
+                // Sending metrics
+                ScrapeTime.Observe(stopwatch.Elapsed.TotalSeconds);
+            }
         }
     }
 }

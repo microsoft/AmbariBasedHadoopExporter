@@ -12,7 +12,7 @@ The exporter was deployed on our Kubernetes cluster running [init-container](htt
 
 ## Build with Docker
 1. Clone the project and go to its root folder.
-2. Run `docker build . -t ambari-exporter:1.0.0`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
+2. Run `docker build . -t ambari-exporter`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
 
 
 ## Deploying to Kubernetes

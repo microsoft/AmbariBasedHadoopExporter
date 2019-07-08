@@ -45,15 +45,6 @@ namespace Infrastructure.UnitTests.Providers
         }
 
         [Fact]
-        public void Should_Raise_Forbidden_Exception()
-        {
-            Func<Task> func = async () => { await _ambariApiContentProvider.GetResponseContentAsync("https://sparkpoc.azurehdinsight.net/api/v1/clusters/sparkpoc"); };
-
-            func.Should().Throw<HttpRequestException>();
-            func.Should().Throw<HttpRequestException>().WithMessage("Status code: Forbidden isnt Ok.");
-        }
-
-        [Fact]
         public void Should_Raise_NoHost_Exception()
         {
             Func<Task> func = async () => { await _ambariApiContentProvider.GetResponseContentAsync("https://dontexist123123.azurehdinsight.net/api/v1/clusters/dontexist123123"); };

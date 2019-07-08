@@ -51,6 +51,7 @@ namespace Core.Exporters.Concrete
         /// <inheritdoc/>
         public async Task ExportMetricsAsync()
         {
+            var content = string.Empty;
             try
             {
                 using (_logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name }, }))
@@ -58,7 +59,7 @@ namespace Core.Exporters.Concrete
                     _logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
                     var stopWatch = Stopwatch.StartNew();
 
-                    var content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
+                    content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
                     var component = JsonConvert.DeserializeObject<ResourceManagerComponent>(content);
 
                     // Constructing labels
@@ -142,7 +143,7 @@ namespace Core.Exporters.Concrete
             }
             catch (Exception e)
             {
-                _logger.LogError(e, $"Failed to export metrics.");
+                _logger.LogError(e, $"{nameof(YarnResourceManagerExporter)}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Content: {content}");
                 throw;
             }
         }
