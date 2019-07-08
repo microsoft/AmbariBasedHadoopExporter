@@ -8,208 +8,180 @@ namespace Core.Exporters.Concrete
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Threading.Tasks;
     using Core.Configurations.Exporters;
-    using Core.Exporters.Abstract;
     using Core.Extensions;
     using Core.Models.Components;
     using Core.Providers;
     using Core.Utils;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using Newtonsoft.Json;
     using Prometheus;
 
     /// <summary>
     /// Responsible for exporting HDFS NameNode metrics.
     /// </summary>
-    internal class HdfsNameNodeExporter : IExporter
+    internal class HdfsNameNodeExporter : BaseExporter
     {
-        private readonly IContentProvider _contentProvider;
-        private readonly IPrometheusUtils _prometheusUtils;
         private readonly HdfsNameNodeExporterConfiguration _exporterConfiguration;
-        private readonly ILogger<HdfsNameNodeExporter> _logger;
 
         public HdfsNameNodeExporter(
             IContentProvider contentProvider,
             IPrometheusUtils prometheusUtils,
             IOptions<HdfsNameNodeExporterConfiguration> exporterConfiguration,
             ILogger<HdfsNameNodeExporter> logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value.UriEndpoint, typeof(HdfsNameNodeComponent), logger)
         {
-            _contentProvider = contentProvider;
-            _prometheusUtils = prometheusUtils;
             _exporterConfiguration = exporterConfiguration.Value;
-            _logger = logger;
             Collectors = new ConcurrentDictionary<string, Collector>();
         }
 
         /// <inheritdoc/>
-        public ConcurrentDictionary<string, Collector> Collectors { get; private set; }
-
-        /// <inheritdoc/>
-        public async Task ExportMetricsAsync()
+        protected override async Task ReportMetrics(object component)
         {
-            var content = string.Empty;
-            try
+            await Task.Factory.StartNew(() =>
             {
-                using (_logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name }, }))
-                {
-                    _logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
-                    var stopWatch = Stopwatch.StartNew();
+                var hdfsNameNodeComponent = component as HdfsNameNodeComponent;
 
-                    content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
-                    var component = JsonConvert.DeserializeObject<HdfsNameNodeComponent>(content);
-
-                    // Constructing labels
-                    var labels = new Dictionary<string, string>()
+                // Constructing labels
+                var labels = new Dictionary<string, string>()
                         {
-                            { "ClusterName", component.Info.ClusterName },
-                            { "Component", component.Info.ComponentName },
+                            { "ClusterName", hdfsNameNodeComponent.Info.ClusterName },
+                            { "hdfsNameNodeComponent", hdfsNameNodeComponent.Info.ComponentName },
                         };
-                    labels.TryAdd(_exporterConfiguration.DefaultLabels);
+                labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
-                    // General info
-                    _prometheusUtils.ReportGauge(Collectors, "Info_StartTime", component.Info.StartTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_StartedCount", component.Info.StartedCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_TotalCount", component.Info.TotalCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_UnknownCount", component.Info.UnknownCount, labels);
+                // General info
+                PrometheusUtils.ReportGauge(Collectors, "Info_StartTime", hdfsNameNodeComponent.Info.StartTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_StartedCount", hdfsNameNodeComponent.Info.StartedCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_TotalCount", hdfsNameNodeComponent.Info.TotalCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_UnknownCount", hdfsNameNodeComponent.Info.UnknownCount, labels);
 
-                    // Cpu
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Idle", component.Metrics.Cpu.Idle, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Nice", component.Metrics.Cpu.Nice, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_System", component.Metrics.Cpu.System, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_User", component.Metrics.Cpu.User, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Wio", component.Metrics.Cpu.Wio, labels);
+                // Cpu
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Idle", hdfsNameNodeComponent.Metrics.Cpu.Idle, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Nice", hdfsNameNodeComponent.Metrics.Cpu.Nice, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_System", hdfsNameNodeComponent.Metrics.Cpu.System, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_User", hdfsNameNodeComponent.Metrics.Cpu.User, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Wio", hdfsNameNodeComponent.Metrics.Cpu.Wio, labels);
 
-                    // HdfsDataNodeDfs - namenode
-                    _prometheusUtils.ReportGauge(
-                        Collectors,
-                        "CorruptFiles",
-                        component.Metrics.Dfs.NameNode.CorruptFiles.TrimStart('[').TrimEnd(']').Split(",", StringSplitOptions.RemoveEmptyEntries).Length,
-                        labels);
-                    _prometheusUtils.ReportGauge(
-                        Collectors,
-                        "DeadNodes",
-                        component.Metrics.Dfs.NameNode.DeadNodes.TrimStart('{').TrimEnd('}').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
-                        labels);
-                    _prometheusUtils.ReportGauge(
-                        Collectors,
-                        "DecomNodes",
-                        component.Metrics.Dfs.NameNode.DecomNodes.TrimStart('{').TrimEnd('}').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
-                        labels);
-                    _prometheusUtils.ReportGauge(
-                        Collectors,
-                        "LiveNodes",
-                        component.Metrics.Dfs.NameNode.LiveNodes.TrimStart('[').TrimEnd(']').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
-                        labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Free", component.Metrics.Dfs.NameNode.Free, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "NonDfsUsedSpace", component.Metrics.Dfs.NameNode.NonDfsUsedSpace, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PercentRemaining", component.Metrics.Dfs.NameNode.PercentRemaining, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PercentUsed", component.Metrics.Dfs.NameNode.PercentUsed, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Threads", component.Metrics.Dfs.NameNode.Threads, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Total", component.Metrics.Dfs.NameNode.Total, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TotalBlocks", component.Metrics.Dfs.NameNode.TotalBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TotalFiles", component.Metrics.Dfs.NameNode.TotalFiles, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Used", component.Metrics.Dfs.NameNode.Used, labels);
+                // HdfsDataNodeDfs - namenode
+                PrometheusUtils.ReportGauge(
+                    Collectors,
+                    "CorruptFiles",
+                    hdfsNameNodeComponent.Metrics.Dfs.NameNode.CorruptFiles.TrimStart('[').TrimEnd(']').Split(",", StringSplitOptions.RemoveEmptyEntries).Length,
+                    labels);
+                PrometheusUtils.ReportGauge(
+                    Collectors,
+                    "DeadNodes",
+                    hdfsNameNodeComponent.Metrics.Dfs.NameNode.DeadNodes.TrimStart('{').TrimEnd('}').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
+                    labels);
+                PrometheusUtils.ReportGauge(
+                    Collectors,
+                    "DecomNodes",
+                    hdfsNameNodeComponent.Metrics.Dfs.NameNode.DecomNodes.TrimStart('{').TrimEnd('}').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
+                    labels);
+                PrometheusUtils.ReportGauge(
+                    Collectors,
+                    "LiveNodes",
+                    hdfsNameNodeComponent.Metrics.Dfs.NameNode.LiveNodes.TrimStart('[').TrimEnd(']').Split("},", StringSplitOptions.RemoveEmptyEntries).Length,
+                    labels);
+                PrometheusUtils.ReportGauge(Collectors, "Free", hdfsNameNodeComponent.Metrics.Dfs.NameNode.Free, labels);
+                PrometheusUtils.ReportGauge(Collectors, "NonDfsUsedSpace", hdfsNameNodeComponent.Metrics.Dfs.NameNode.NonDfsUsedSpace, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PercentRemaining", hdfsNameNodeComponent.Metrics.Dfs.NameNode.PercentRemaining, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PercentUsed", hdfsNameNodeComponent.Metrics.Dfs.NameNode.PercentUsed, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Threads", hdfsNameNodeComponent.Metrics.Dfs.NameNode.Threads, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Total", hdfsNameNodeComponent.Metrics.Dfs.NameNode.Total, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TotalBlocks", hdfsNameNodeComponent.Metrics.Dfs.NameNode.TotalBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TotalFiles", hdfsNameNodeComponent.Metrics.Dfs.NameNode.TotalFiles, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Used", hdfsNameNodeComponent.Metrics.Dfs.NameNode.Used, labels);
 
-                    // HdfsDataNodeDfs - system
-                    _prometheusUtils.ReportGauge(Collectors, "BlockCapacity", component.Metrics.Dfs.System.BlockCapacity, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "BlocksTotal", component.Metrics.Dfs.System.BlocksTotal, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityRemaining", component.Metrics.Dfs.System.CapacityRemaining, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityRemainingGB", component.Metrics.Dfs.System.CapacityRemainingGB, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityTotal", component.Metrics.Dfs.System.CapacityTotal, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityTotalGB", component.Metrics.Dfs.System.CapacityTotalGB, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityUsed", component.Metrics.Dfs.System.CapacityUsed, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CapacityUsedGB", component.Metrics.Dfs.System.CapacityUsedGB, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "CorruptBlocks", component.Metrics.Dfs.System.CorruptBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ExcessBlocks", component.Metrics.Dfs.System.ExcessBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ExpiredHeartbeats", component.Metrics.Dfs.System.ExpiredHeartbeats, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "FilesTotal", component.Metrics.Dfs.System.FilesTotal, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "LastCheckpointTime", component.Metrics.Dfs.System.LastCheckpointTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "LastWrittenTransactionId", component.Metrics.Dfs.System.LastWrittenTransactionId, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "MillisSinceLastLoadedEdits", component.Metrics.Dfs.System.MillisSinceLastLoadedEdits, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "MissingBlocks", component.Metrics.Dfs.System.MissingBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "MissingReplOneBlocks", component.Metrics.Dfs.System.MissingReplOneBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PendingDataNodeMessageCount", component.Metrics.Dfs.System.PendingDataNodeMessageCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PendingDeletionBlocks", component.Metrics.Dfs.System.PendingDeletionBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PendingReplicationBlocks", component.Metrics.Dfs.System.PendingReplicationBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "PostponedMisreplicatedBlocks", component.Metrics.Dfs.System.PostponedMisreplicatedBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ScheduledReplicationBlocks", component.Metrics.Dfs.System.ScheduledReplicationBlocks, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Snapshots", component.Metrics.Dfs.System.Snapshots, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "SnapshottableDirectories", component.Metrics.Dfs.System.SnapshottableDirectories, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "StaleDataNodes", component.Metrics.Dfs.System.StaleDataNodes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TotalFiles", component.Metrics.Dfs.System.TotalFiles, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TotalLoad", component.Metrics.Dfs.System.TotalLoad, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TransactionsSinceLastCheckpoint", component.Metrics.Dfs.System.TransactionsSinceLastCheckpoint, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "TransactionsSinceLastLogRoll", component.Metrics.Dfs.System.TransactionsSinceLastLogRoll, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "UnderReplicatedBlocks", component.Metrics.Dfs.System.UnderReplicatedBlocks, labels);
+                // HdfsDataNodeDfs - system
+                PrometheusUtils.ReportGauge(Collectors, "BlockCapacity", hdfsNameNodeComponent.Metrics.Dfs.System.BlockCapacity, labels);
+                PrometheusUtils.ReportGauge(Collectors, "BlocksTotal", hdfsNameNodeComponent.Metrics.Dfs.System.BlocksTotal, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityRemaining", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityRemaining, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityRemainingGB", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityRemainingGB, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityTotal", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityTotal, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityTotalGB", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityTotalGB, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityUsed", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityUsed, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CapacityUsedGB", hdfsNameNodeComponent.Metrics.Dfs.System.CapacityUsedGB, labels);
+                PrometheusUtils.ReportGauge(Collectors, "CorruptBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.CorruptBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ExcessBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.ExcessBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ExpiredHeartbeats", hdfsNameNodeComponent.Metrics.Dfs.System.ExpiredHeartbeats, labels);
+                PrometheusUtils.ReportGauge(Collectors, "FilesTotal", hdfsNameNodeComponent.Metrics.Dfs.System.FilesTotal, labels);
+                PrometheusUtils.ReportGauge(Collectors, "LastCheckpointTime", hdfsNameNodeComponent.Metrics.Dfs.System.LastCheckpointTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "LastWrittenTransactionId", hdfsNameNodeComponent.Metrics.Dfs.System.LastWrittenTransactionId, labels);
+                PrometheusUtils.ReportGauge(Collectors, "MillisSinceLastLoadedEdits", hdfsNameNodeComponent.Metrics.Dfs.System.MillisSinceLastLoadedEdits, labels);
+                PrometheusUtils.ReportGauge(Collectors, "MissingBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.MissingBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "MissingReplOneBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.MissingReplOneBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PendingDataNodeMessageCount", hdfsNameNodeComponent.Metrics.Dfs.System.PendingDataNodeMessageCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PendingDeletionBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.PendingDeletionBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PendingReplicationBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.PendingReplicationBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "PostponedMisreplicatedBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.PostponedMisreplicatedBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ScheduledReplicationBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.ScheduledReplicationBlocks, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Snapshots", hdfsNameNodeComponent.Metrics.Dfs.System.Snapshots, labels);
+                PrometheusUtils.ReportGauge(Collectors, "SnapshottableDirectories", hdfsNameNodeComponent.Metrics.Dfs.System.SnapshottableDirectories, labels);
+                PrometheusUtils.ReportGauge(Collectors, "StaleDataNodes", hdfsNameNodeComponent.Metrics.Dfs.System.StaleDataNodes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TotalFiles", hdfsNameNodeComponent.Metrics.Dfs.System.TotalFiles, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TotalLoad", hdfsNameNodeComponent.Metrics.Dfs.System.TotalLoad, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TransactionsSinceLastCheckpoint", hdfsNameNodeComponent.Metrics.Dfs.System.TransactionsSinceLastCheckpoint, labels);
+                PrometheusUtils.ReportGauge(Collectors, "TransactionsSinceLastLogRoll", hdfsNameNodeComponent.Metrics.Dfs.System.TransactionsSinceLastLogRoll, labels);
+                PrometheusUtils.ReportGauge(Collectors, "UnderReplicatedBlocks", hdfsNameNodeComponent.Metrics.Dfs.System.UnderReplicatedBlocks, labels);
 
-                    // Disk
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_Free", component.Metrics.Disk.Free, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadBytes", component.Metrics.Disk.ReadBytes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadCount", component.Metrics.Disk.ReadCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadTime", component.Metrics.Disk.ReadTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_Total", component.Metrics.Disk.Total, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteBytes", component.Metrics.Disk.WriteBytes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteCount", component.Metrics.Disk.WriteCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteTime", component.Metrics.Disk.WriteTime, labels);
+                // Disk
+                PrometheusUtils.ReportGauge(Collectors, "Disk_Free", hdfsNameNodeComponent.Metrics.Disk.Free, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadBytes", hdfsNameNodeComponent.Metrics.Disk.ReadBytes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadCount", hdfsNameNodeComponent.Metrics.Disk.ReadCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadTime", hdfsNameNodeComponent.Metrics.Disk.ReadTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_Total", hdfsNameNodeComponent.Metrics.Disk.Total, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteBytes", hdfsNameNodeComponent.Metrics.Disk.WriteBytes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteCount", hdfsNameNodeComponent.Metrics.Disk.WriteCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteTime", hdfsNameNodeComponent.Metrics.Disk.WriteTime, labels);
 
-                    // HdfsNameNodeJvm
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_GcCountConcurrentMarkSweep", component.Metrics.HdfsNameNodeJvm.GcCountConcurrentMarkSweep, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_GcTimeMillisConcurrentMarkSweep", component.Metrics.HdfsNameNodeJvm.GcTimeMillisConcurrentMarkSweep, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_gcCount", component.Metrics.HdfsNameNodeJvm.GcCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_gcTimeMillis", component.Metrics.HdfsNameNodeJvm.GcTimeMillis, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_logError", component.Metrics.HdfsNameNodeJvm.LogError, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_logFatal", component.Metrics.HdfsNameNodeJvm.LogFatal, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_logInfo", component.Metrics.HdfsNameNodeJvm.LogInfo, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_logWarn", component.Metrics.HdfsNameNodeJvm.LogWarn, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_memHeapCommittedM", component.Metrics.HdfsNameNodeJvm.MemHeapCommittedM, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_memHeapUsedM", component.Metrics.HdfsNameNodeJvm.MemHeapUsedM, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_memMaxM", component.Metrics.HdfsNameNodeJvm.MemMaxM, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_memNonHeapCommittedM", component.Metrics.HdfsNameNodeJvm.MemNonHeapCommittedM, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_memNonHeapUsedM", component.Metrics.HdfsNameNodeJvm.MemNonHeapUsedM, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsBlocked", component.Metrics.HdfsNameNodeJvm.ThreadsBlocked, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsNew", component.Metrics.HdfsNameNodeJvm.ThreadsNew, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsRunnable", component.Metrics.HdfsNameNodeJvm.ThreadsRunnable, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsTerminated", component.Metrics.HdfsNameNodeJvm.ThreadsTerminated, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsTimedWaiting", component.Metrics.HdfsNameNodeJvm.ThreadsTimedWaiting, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Jvm_threadsWaiting", component.Metrics.HdfsNameNodeJvm.ThreadsWaiting, labels);
+                // HdfsNameNodeJvm
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_GcCountConcurrentMarkSweep", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.GcCountConcurrentMarkSweep, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_GcTimeMillisConcurrentMarkSweep", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.GcTimeMillisConcurrentMarkSweep, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_gcCount", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.GcCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_gcTimeMillis", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.GcTimeMillis, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_logError", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.LogError, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_logFatal", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.LogFatal, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_logInfo", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.LogInfo, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_logWarn", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.LogWarn, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_memHeapCommittedM", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.MemHeapCommittedM, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_memHeapUsedM", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.MemHeapUsedM, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_memMaxM", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.MemMaxM, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_memNonHeapCommittedM", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.MemNonHeapCommittedM, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_memNonHeapUsedM", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.MemNonHeapUsedM, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsBlocked", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsBlocked, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsNew", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsNew, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsRunnable", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsRunnable, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsTerminated", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsTerminated, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsTimedWaiting", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsTimedWaiting, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Jvm_threadsWaiting", hdfsNameNodeComponent.Metrics.HdfsNameNodeJvm.ThreadsWaiting, labels);
 
-                    // Memory
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_CachedKb", component.Metrics.Memory.CachedKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_FreeKb", component.Metrics.Memory.FreeKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_SharedKb", component.Metrics.Memory.SharedKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_SwapFreeKb", component.Metrics.Memory.SwapFreeKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_TotalKb", component.Metrics.Memory.TotalKb, labels);
+                // Memory
+                PrometheusUtils.ReportGauge(Collectors, "Memory_CachedKb", hdfsNameNodeComponent.Metrics.Memory.CachedKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_FreeKb", hdfsNameNodeComponent.Metrics.Memory.FreeKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_SharedKb", hdfsNameNodeComponent.Metrics.Memory.SharedKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_SwapFreeKb", hdfsNameNodeComponent.Metrics.Memory.SwapFreeKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_TotalKb", hdfsNameNodeComponent.Metrics.Memory.TotalKb, labels);
 
-                    // Network
-                    _prometheusUtils.ReportGauge(Collectors, "Network_BytesIn", component.Metrics.Network.BytesIn, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_BytesOut", component.Metrics.Network.BytesOut, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_PktsIn", component.Metrics.Network.PktsIn, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_PktsOut", component.Metrics.Network.PktsOut, labels);
+                // Network
+                PrometheusUtils.ReportGauge(Collectors, "Network_BytesIn", hdfsNameNodeComponent.Metrics.Network.BytesIn, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_BytesOut", hdfsNameNodeComponent.Metrics.Network.BytesOut, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_PktsIn", hdfsNameNodeComponent.Metrics.Network.PktsIn, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_PktsOut", hdfsNameNodeComponent.Metrics.Network.PktsOut, labels);
 
-                    // Process
-                    _prometheusUtils.ReportGauge(Collectors, "Process_Run", component.Metrics.Process.Run, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Process_Total", component.Metrics.Process.Total, labels);
+                // Process
+                PrometheusUtils.ReportGauge(Collectors, "Process_Run", hdfsNameNodeComponent.Metrics.Process.Run, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Process_Total", hdfsNameNodeComponent.Metrics.Process.Total, labels);
 
-                    // YarnResourceManagerRpc
-                    _prometheusUtils.ReportGauge(Collectors, "Rpc_NumOpenConnections", component.Metrics.Rpc.Client.NumOpenConnections, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Rpc_ReceivedBytes", component.Metrics.Rpc.Client.ReceivedBytes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Rpc_ProcessingTimeAvgTime", component.Metrics.Rpc.Client.ProcessingTimeAvgTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Rpc_QueueTimeAvgTime", component.Metrics.Rpc.Client.QueueTimeAvgTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Rpc_SentBytes", component.Metrics.Rpc.Client.SentBytes, labels);
-
-                    // Tracing
-                    stopWatch.Stop();
-                    _logger.LogInformation($"Runtime: {stopWatch.Elapsed}.");
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, $"{nameof(HdfsNameNodeExporter)}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Content: {content}");
-                throw;
-            }
+                // YarnResourceManagerRpc
+                PrometheusUtils.ReportGauge(Collectors, "Rpc_NumOpenConnections", hdfsNameNodeComponent.Metrics.Rpc.Client.NumOpenConnections, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Rpc_ReceivedBytes", hdfsNameNodeComponent.Metrics.Rpc.Client.ReceivedBytes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Rpc_ProcessingTimeAvgTime", hdfsNameNodeComponent.Metrics.Rpc.Client.ProcessingTimeAvgTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Rpc_QueueTimeAvgTime", hdfsNameNodeComponent.Metrics.Rpc.Client.QueueTimeAvgTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Rpc_SentBytes", hdfsNameNodeComponent.Metrics.Rpc.Client.SentBytes, labels);
+            });
         }
     }
 }

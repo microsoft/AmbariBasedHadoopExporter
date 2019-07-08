@@ -22,7 +22,8 @@ namespace Core.Exporters.Abstract
         /// <summary>
         /// Exporting metrics of the implementing component.
         /// </summary>
+        /// <param name="endpointUriSuffix">Optional parameter that will be appended to the http endpoint uri request must start with '/'.</param>
         /// <returns>The relevant Task.</returns>
-        Task ExportMetricsAsync();
+        Task ExportMetricsAsync(string endpointUriSuffix = null);
     }
 }

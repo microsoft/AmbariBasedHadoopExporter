@@ -60,7 +60,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Adding invalid exporter
             var invalidExporter = new Mock<IExporter>();
-            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new Exception("Test exception"));
+            invalidExporter.Setup(f => f.ExportMetricsAsync(null)).Throws(new Exception("Test exception"));
             exporterEnumerator.Add(invalidExporter.Object);
             for (int i = 0; i < 5; i++)
             {
