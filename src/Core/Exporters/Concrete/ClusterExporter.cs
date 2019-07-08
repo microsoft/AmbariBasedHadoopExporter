@@ -38,7 +38,7 @@ namespace Core.Exporters.Concrete
         }
 
         /// <summary>
-        /// Exporting metrics for all cluster nodes in the cluster.
+        /// Exporting metrics for all nodes in the cluster.
         /// </summary>
         /// <param name="hosts">IEnumerable of HostEntry.</param>
         /// <returns>List of tasks, each task exporting metrics of a specific host.</returns>

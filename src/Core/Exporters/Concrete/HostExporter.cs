@@ -15,6 +15,10 @@ namespace Core.Exporters.Concrete
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
 
+    /// <summary>
+    /// Host exporter is used in Cluster exporter to send metrics per node.
+    /// This class has a dynamic input, depending on the nodes in the cluster.
+    /// </summary>
     internal class HostExporter : BaseExporter
     {
         public readonly HostExporterConfiguration _hostConfiguration;
@@ -34,7 +38,7 @@ namespace Core.Exporters.Concrete
         {
             await Task.Factory.StartNew(() =>
             {
-                var clusterComponent = component as ClusterHostComponent;
+                var clusterComponent = (ClusterHostComponent)component;
 
                 // Constructing labels
                 var labels = new Dictionary<string, string>()

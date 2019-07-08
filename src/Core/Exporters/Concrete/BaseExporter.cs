@@ -44,12 +44,7 @@ namespace Core.Exporters.Concrete
         /// <inheritdoc />
         public ConcurrentDictionary<string, Collector> Collectors { get; protected set; }
 
-        /// <summary>
-        /// Overloading the implementation of ExportMetricsAsync, adding an input parameter that can be used
-        /// to append to the URL.
-        /// </summary>
-        /// <param name="endpointUrlSuffix">Suffix, starting with "/"</param>
-        /// <returns>Task</returns>
+        /// <inheritdoc />
         public async Task ExportMetricsAsync(string endpointUrlSuffix = null)
         {
             var fullEndpointUri = BaseConfiguration.UriEndpoint;
@@ -91,7 +86,7 @@ namespace Core.Exporters.Concrete
         }
 
         /// <summary>
-        /// Reporting metrics using the exporter component, received from Ambari api.
+        /// Reporting metrics using the exporter component received from Ambari api.
         /// </summary>
         /// <param name="component">Component object</param>
         /// <returns>Task</returns>

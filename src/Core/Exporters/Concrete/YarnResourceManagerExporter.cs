@@ -95,10 +95,10 @@ namespace Core.Exporters.Concrete
 
                 // Constructing labels
                 var labels = new Dictionary<string, string>()
-                        {
-                            { "ClusterName", resourceManagerComponent.Info.ClusterName },
-                            { "Component", resourceManagerComponent.Info.ComponentName },
-                        };
+                {
+                    { "ClusterName", resourceManagerComponent.Info.ClusterName },
+                    { "Component", resourceManagerComponent.Info.ComponentName },
+                };
                 labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
                 // General info

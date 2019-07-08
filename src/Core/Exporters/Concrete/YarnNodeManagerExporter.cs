@@ -47,10 +47,10 @@ namespace Core.Exporters.Concrete
 
                 // Constructing labels
                 var labels = new Dictionary<string, string>()
-                        {
-                            { "ClusterName", nodeManagerComponent.Info.ClusterName },
-                            { "Component", nodeManagerComponent.Info.ComponentName },
-                        };
+                {
+                    { "ClusterName", nodeManagerComponent.Info.ClusterName },
+                    { "Component", nodeManagerComponent.Info.ComponentName },
+                };
                 labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
                 // General info

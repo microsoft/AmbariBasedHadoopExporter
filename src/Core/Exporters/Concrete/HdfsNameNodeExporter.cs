@@ -40,7 +40,7 @@ namespace Core.Exporters.Concrete
         {
             await Task.Factory.StartNew(() =>
             {
-                var hdfsNameNodeComponent = component as HdfsNameNodeComponent;
+                var hdfsNameNodeComponent = (HdfsNameNodeComponent)component;
 
                 // Constructing labels
                 var labels = new Dictionary<string, string>()
