@@ -117,6 +117,11 @@ namespace App.Services.Hosted
 
                 IsSuccessful.Set(0);
             }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {e.Message}");
+                IsSuccessful.Set(0);
+            }
             finally
             {
                 stopwatch.Stop();

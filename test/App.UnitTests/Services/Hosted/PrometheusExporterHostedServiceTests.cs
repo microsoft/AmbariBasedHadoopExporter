@@ -59,7 +59,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Adding invalid exporter
             var invalidExporter = new Mock<IExporter>();
-            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new AggregateException("Test exception"));
+            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new Exception("Test exception"));
             exporterEnumerator.Add(invalidExporter.Object);
             for (int i = 0; i < 5; i++)
             {
@@ -72,6 +72,21 @@ namespace App.UnitTests.Services.Hosted
             _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(10);
             _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
 
+            // Adding invalid aggregated exception
+            var invalidAggregatedExporter = new Mock<IExporter>();
+            invalidAggregatedExporter.Setup(f => f.ExportMetricsAsync()).Throws(new AggregateException("Test exception"));
+            exporterEnumerator.Add(invalidAggregatedExporter.Object);
+            for (int i = 0; i < 5; i++)
+            {
+                await _prometheusExporterService.RunExportersAsync();
+                _prometheusExporterService.IsSuccessful.Value.Should().Be(0);
+            }
+
+            // Validating metrics
+            _prometheusExporterService.ScrapeTime.Should().NotBeNull();
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(15);
+            _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
+
             // Removing valid exporter
             exporterEnumerator.Remove(validExporter.Object);
             for (int i = 0; i < 5; i++)
@@ -82,7 +97,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Validating metrics
             _prometheusExporterService.ScrapeTime.Should().NotBeNull();
-            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(15);
+            _prometheusExporterService.TotalScrapeActivations.Value.Should().Be(20);
             _prometheusExporterService.TotalSuccessfulScrapeActivations.Value.Should().Be(5);
         }
     }
