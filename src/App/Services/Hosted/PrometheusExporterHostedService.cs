@@ -52,7 +52,7 @@ namespace App.Services.Hosted
             TotalSuccessfulScrapeActivations = Metrics.CreateCounter(
                 "total_success_activations",
                 "Total successful activation of the exporter",
-                new CounterConfiguration() {SuppressInitialValue = true });
+                new CounterConfiguration() { SuppressInitialValue = true });
             IsSuccessful = Metrics.CreateGauge(
                 "is_successful_scrape",
                 "Indication to if the last scrape was successful",
@@ -115,6 +115,11 @@ namespace App.Services.Hosted
                     _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {innerException.Message}");
                 }
 
+                IsSuccessful.Set(0);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {e.Message}");
                 IsSuccessful.Set(0);
             }
             finally
