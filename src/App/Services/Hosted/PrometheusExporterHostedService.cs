@@ -114,10 +114,13 @@ namespace App.Services.Hosted
                 {
                     _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {innerException.Message}");
                 }
+
+                return;
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {e.Message}");
+                return;
             }
             finally
             {
