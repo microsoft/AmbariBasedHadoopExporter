@@ -23,16 +23,22 @@ namespace Core.UnitTests.Exporters
 
     public class BaseExporterTests
     {
-        [Fact]
-        public void IllegalAruments_Should_Throw()
+        /// <summary>
+        /// Helper method that inits some YarnResourceManagerExporter
+        /// </summary>
+        /// <returns>Tuple containing relevant mocked objects</returns>
+        public (
+            BaseExporter exporter,
+            Mock<IContentProvider> contentProvider,
+            Mock<IPrometheusUtils> prometheusUtils,
+            Mock<YarnResourceManagerExporterConfiguration> configuration)
+            InitBaseExporterMocks()
         {
-            // Using YarnResourceManagerExporter as a placeholder for one of the implementing classes
             var contentProvider = new Mock<IContentProvider>();
             var prometheusUtils = new Mock<IPrometheusUtils>();
             var configurationOptions = new Mock<IOptions<YarnResourceManagerExporterConfiguration>>();
             var configuration = new Mock<YarnResourceManagerExporterConfiguration>();
             var logger = new Mock<ILogger<YarnResourceManagerExporter>>();
-            contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(Task.FromResult(string.Empty));
             configuration.Setup(f => f.UriEndpoint).Returns("cluster");
             configurationOptions.Setup(f => f.Value).Returns(configuration.Object);
             var exporter = new YarnResourceManagerExporter(
@@ -41,41 +47,39 @@ namespace Core.UnitTests.Exporters
                 configurationOptions.Object,
                 logger.Object);
 
+            return (exporter, contentProvider, prometheusUtils, configuration);
+        }
+
+        [Fact]
+        public void FullEndpointUrl_IllegalAruments_Should_Throw()
+        {
+            var mocks = InitBaseExporterMocks();
+
             // Empty string
-            Func<Task> func = async () => { await exporter.ExportMetricsAsync(string.Empty); };
+            Func<string> func = () => { return mocks.exporter.GetFullEndpointUrl(string.Empty); };
             func.Should().Throw<ArgumentException>();
 
             // Invalid string format
-            func = async () => { await exporter.ExportMetricsAsync("/someString"); };
+            func = () => { return mocks.exporter.GetFullEndpointUrl("/someString"); };
             func.Should().Throw<ArgumentException>();
         }
 
         [Fact]
         public async Task Updating_Self_Metrics_Should_Update_Accordingly()
         {
-            // Using YarnResourceManagerExporter as a placeholder for one of the implementing classes
-            var contentProvider = new Mock<IContentProvider>();
-            var prometheusUtils = new Mock<IPrometheusUtils>();
-            var configurationOptions = new Mock<IOptions<YarnResourceManagerExporterConfiguration>>();
-            var configuration = new Mock<YarnResourceManagerExporterConfiguration>();
-            var logger = new Mock<ILogger<YarnResourceManagerExporter>>();
+            var mocks = InitBaseExporterMocks();
+
+            // Mocking specific behavior
             var content = File.ReadAllText("Jsons/YarnResourceManagerResponse.json");
-            contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(() =>
+            mocks.contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(() =>
             {
                 Task.Delay(1000).GetAwaiter().GetResult();
                 return Task.FromResult(content);
             });
-            configuration.Setup(f => f.UriEndpoint).Returns("cluster");
-            configurationOptions.Setup(f => f.Value).Returns(configuration.Object);
-            var exporter = new YarnResourceManagerExporter(
-                contentProvider.Object,
-                prometheusUtils.Object,
-                configurationOptions.Object,
-                logger.Object);
 
             var successfulScrapes = 0;
             var lastRunDuration = 0.0;
-            prometheusUtils
+            mocks.prometheusUtils
                 .Setup(f => f.ReportGauge(
                     It.IsAny<ConcurrentDictionary<string, Collector>>(),
                     It.IsIn("exporter_is_successful_scrape"),
@@ -83,7 +87,7 @@ namespace Core.UnitTests.Exporters
                     It.IsAny<Dictionary<string, string>>(),
                     It.IsAny<string>()))
                 .Callback(() => { successfulScrapes++; });
-            prometheusUtils
+            mocks.prometheusUtils
                 .Setup(f => f.ReportGauge(
                     It.IsAny<ConcurrentDictionary<string, Collector>>(),
                     It.IsIn("exporter_scrape_time_seconds"),
@@ -99,7 +103,7 @@ namespace Core.UnitTests.Exporters
             for (int i = 1; i <= 5; i++)
             {
                 // Activating
-                await exporter.ExportMetricsAsync();
+                await mocks.exporter.ExportMetricsAsync();
 
                 // Validating
                 successfulScrapes.Should().Be(i);
@@ -108,10 +112,10 @@ namespace Core.UnitTests.Exporters
 
             // Validatin on bad behavior
             lastRunDuration = 0.0;
-            contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(Task.FromResult("invalid"));
+            mocks.contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(Task.FromResult("invalid"));
             for (int i = 0; i < 5; i++)
             {
-                Func<Task> func = async () => { await exporter.ExportMetricsAsync(); };
+                Func<Task> func = async () => { await mocks.exporter.ExportMetricsAsync(); };
                 func.Should().Throw<Exception>();
                 successfulScrapes.Should().Be(5);
                 lastRunDuration.Should().Be(0);

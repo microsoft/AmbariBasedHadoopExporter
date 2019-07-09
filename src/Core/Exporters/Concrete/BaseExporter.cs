@@ -56,19 +56,8 @@ namespace Core.Exporters.Concrete
         /// <inheritdoc />
         public async Task ExportMetricsAsync(string endpointUrlSuffix = null)
         {
-            // Validating suffix
-            var fullEndpointUri = BaseConfiguration.UriEndpoint;
-            if (endpointUrlSuffix != null)
-            {
-                // Valid suffix
-                if (endpointUrlSuffix == string.Empty || endpointUrlSuffix.StartsWith("/"))
-                {
-                    throw new ArgumentException(
-                        $"{nameof(ExportMetricsAsync)} recieved an invalid endpoint url suffix - {endpointUrlSuffix}.");
-                }
-
-                fullEndpointUri += $"/{endpointUrlSuffix}";
-            }
+            // Getting the full endpoint URL
+            var fullEndpointUrl = GetFullEndpointUrl(endpointUrlSuffix);
 
             // Invoking the request and sending metrics
             var content = string.Empty;
@@ -80,7 +69,7 @@ namespace Core.Exporters.Concrete
                 {
                     Logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
 
-                  content = await ContentProvider.GetResponseContentAsync(fullEndpointUri);
+                  content = await ContentProvider.GetResponseContentAsync(fullEndpointUrl);
                     var component = JsonConvert.DeserializeObject(content, ComponentType);
                     await ReportMetrics(component);
                 }
@@ -110,6 +99,30 @@ namespace Core.Exporters.Concrete
                 stopWatch.ElapsedMilliseconds / 1000.0,
                 _exporterMetricsLabels,
                 "Total scraping time of a specific exporter component");
+        }
+
+        /// <summary>
+        /// Helper method used to build the full url that will be used in the http request.
+        /// </summary>
+        /// <param name="endpointUrlSuffix">Suffix of the url, must not start with '/'</param>
+        /// <returns>Full URL</returns>
+        internal string GetFullEndpointUrl(string endpointUrlSuffix)
+        {
+            // Validating suffix
+            var fullEndpointUrl = BaseConfiguration.UriEndpoint;
+            if (endpointUrlSuffix != null)
+            {
+                // Valid suffix
+                if (endpointUrlSuffix == string.Empty || endpointUrlSuffix.StartsWith("/"))
+                {
+                    throw new ArgumentException(
+                        $"{nameof(ExportMetricsAsync)} recieved an invalid endpoint url suffix - {endpointUrlSuffix}.");
+                }
+
+                fullEndpointUrl += $"/{endpointUrlSuffix}";
+            }
+
+            return fullEndpointUrl;
         }
 
         /// <summary>
