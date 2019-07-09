@@ -12,6 +12,7 @@ namespace Core.Exporters.Concrete
     using System.Threading.Tasks;
     using Core.Configurations.Exporters;
     using Core.Exporters.Abstract;
+    using Core.Extensions;
     using Core.Providers;
     using Core.Utils;
     using Microsoft.Extensions.Logging;
@@ -26,6 +27,8 @@ namespace Core.Exporters.Concrete
         protected readonly ILogger Logger;
         protected readonly Type ComponentType;
 
+        private readonly Dictionary<string, string> _exporterMetricsLabels;
+
         protected BaseExporter(
             IContentProvider contentProvider,
             IPrometheusUtils prometheusUtils,
@@ -39,6 +42,12 @@ namespace Core.Exporters.Concrete
             ComponentType = componentType;
             Logger = logger;
             Collectors = new ConcurrentDictionary<string, Collector>();
+
+            _exporterMetricsLabels = new Dictionary<string, string>()
+            {
+                { "Exporter", $"{GetType().Name}" }
+            };
+            _exporterMetricsLabels.TryAdd(BaseConfiguration.DefaultLabels);
         }
 
         /// <inheritdoc />
@@ -47,6 +56,7 @@ namespace Core.Exporters.Concrete
         /// <inheritdoc />
         public async Task ExportMetricsAsync(string endpointUrlSuffix = null)
         {
+            // Validating suffix
             var fullEndpointUri = BaseConfiguration.UriEndpoint;
             if (endpointUrlSuffix != null)
             {
@@ -60,29 +70,46 @@ namespace Core.Exporters.Concrete
                 fullEndpointUri += $"/{endpointUrlSuffix}";
             }
 
+            // Invoking the request and sending metrics
             var content = string.Empty;
             var stopWatch = Stopwatch.StartNew();
+            var successfullRun = 1;
             try
             {
                 using (Logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name } }))
                 {
                     Logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
 
-                    content = await ContentProvider.GetResponseContentAsync(fullEndpointUri);
+                  content = await ContentProvider.GetResponseContentAsync(fullEndpointUri);
                     var component = JsonConvert.DeserializeObject(content, ComponentType);
                     await ReportMetrics(component);
                 }
             }
             catch (Exception e)
             {
+                successfullRun = 0;
                 Logger.LogError(e, $"{GetType().Name}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Labels: {BaseConfiguration.DefaultLabels}, Content length: {content.Length}");
                 throw;
             }
             finally
             {
                 stopWatch.Stop();
-                Logger.LogInformation($"Runtime: {stopWatch.Elapsed}.");
+                Logger.LogInformation($"{GetType().Name}.{nameof(ExportMetricsAsync)} ran for: {stopWatch.Elapsed}.");
+                PrometheusUtils.ReportGauge(
+                    Collectors,
+                    "exporter_is_successful_scrape",
+                    successfullRun,
+                    _exporterMetricsLabels,
+                    "Indication to if the last scrape was successful");
             }
+
+            // Sending scrape time only on successful operations
+            PrometheusUtils.ReportGauge(
+                Collectors,
+                "exporter_scrape_time_seconds",
+                stopWatch.ElapsedMilliseconds / 1000.0,
+                _exporterMetricsLabels,
+                "Total scraping time of a specific exporter component");
         }
 
         /// <summary>

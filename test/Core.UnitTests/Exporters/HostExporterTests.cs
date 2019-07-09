@@ -54,7 +54,7 @@ namespace Core.UnitTests.Exporters
             int reportedCounter = 0;
             _prometheusUtils.Setup(f => f.ReportGauge(
                 It.IsAny<ConcurrentDictionary<string, Collector>>(),
-                It.IsAny<string>(),
+                It.IsNotIn("exporter_is_successful_scrape", "exporter_scrape_time_seconds"),
                 It.IsAny<double>(),
                 It.IsAny<Dictionary<string, string>>(),
                 It.IsAny<string>())).Callback(() => { reportedCounter++; });
