@@ -10,6 +10,10 @@ We're running on Azure environment, using Azure HDInsight cluster 3.6 running HD
 The exporter was deployed on our Kubernetes cluster running [init-container](https://github.com/Hexadite/acs-keyvault-agent) that handles all secrets acquisition from an Azure Key Vault and injection to our containers.
 
 
+## Download from DockerHub
+You can download an image from [this](https://cloud.docker.com/u/solotomer/repository/docker/solotomer/ambari-based-hadoop-exporter) DockerHub.
+
+
 ## Build with Docker
 1. Clone the project and go to its root folder.
 2. Run `docker build . -t ambari-exporter`, this will create a docker image on your local machine, run `docker images ambari-exporter` to validate that the image exists.
