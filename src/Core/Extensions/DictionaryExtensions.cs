@@ -16,6 +16,8 @@ namespace Core.Extensions
         /// <typeparam name="TValue">Value Type.</typeparam>
         /// <param name="dictionary">Dictionary of labels. Assertion - Cannot be null or empty.</param>
         /// <param name="defaults">Default labels.</param>
+        /// <exception cref="System.ArgumentException">Thrown when an existing adding an existing item.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown on a null item.</exception>
         internal static void TryAdd<TKey, TValue>(
             this Dictionary<TKey, TValue> dictionary,
             IEnumerable<KeyValuePair<TKey, TValue>> defaults)

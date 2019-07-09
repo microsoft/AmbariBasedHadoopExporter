@@ -6,8 +6,6 @@
 namespace Core.UnitTests.Exporters
 {
     using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.IO;
     using System.Threading.Tasks;
     using Core.Configurations.Exporters;
@@ -18,7 +16,6 @@ namespace Core.UnitTests.Exporters
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
     using Moq;
-    using Prometheus;
     using Xunit;
 
     public class ClusterExporterTests
@@ -26,7 +23,9 @@ namespace Core.UnitTests.Exporters
         private readonly Mock<IContentProvider> _contentProvider;
         private readonly Mock<IPrometheusUtils> _prometheusUtils;
         private readonly Mock<IOptions<ClusterExporterConfiguration>> _configurationOptions;
+        private readonly Mock<IOptions<HostExporterConfiguration>> _hostConfigurationOptions;
         private readonly Mock<ClusterExporterConfiguration> _configuration;
+        private readonly Mock<HostExporterConfiguration> _hostConfiguration;
         private readonly Mock<ILogger<ClusterExporter>> _logger;
         private readonly ClusterExporter _exporter;
 
@@ -40,12 +39,18 @@ namespace Core.UnitTests.Exporters
             _configuration.Setup(f => f.UriEndpoint).Returns("cluster");
             _configurationOptions.Setup(f => f.Value).Returns(_configuration.Object);
 
+            _hostConfigurationOptions = new Mock<IOptions<HostExporterConfiguration>>();
+            _hostConfiguration = new Mock<HostExporterConfiguration>();
+            _hostConfiguration.Setup(f => f.UriEndpoint).Returns("host");
+            _hostConfigurationOptions.Setup(f => f.Value).Returns(_hostConfiguration.Object);
+
             _logger = new Mock<ILogger<ClusterExporter>>();
 
             _exporter = new ClusterExporter(
                 _contentProvider.Object,
                 _prometheusUtils.Object,
                 _configurationOptions.Object,
+                _hostConfigurationOptions.Object,
                 _logger.Object);
         }
 
@@ -70,25 +75,6 @@ namespace Core.UnitTests.Exporters
             Func<Task> func = async () => { await _exporter.ExportMetricsAsync(); };
 
             func.Should().Throw<Exception>();
-        }
-
-        [Fact]
-        public void Exporting_Host_Should_Run_Successfully()
-        {
-            int reportedCounter = 0;
-            _prometheusUtils.Setup(f => f.ReportGauge(
-                It.IsAny<ConcurrentDictionary<string, Collector>>(),
-                It.IsAny<string>(),
-                It.IsAny<double>(),
-                It.IsAny<Dictionary<string, string>>(),
-                It.IsAny<string>())).Callback(() => { reportedCounter++; });
-            var content = File.ReadAllText("Jsons/HostsResponse.json");
-            _contentProvider.Setup(f => f.GetResponseContentAsync(It.IsAny<string>())).Returns(Task.FromResult(content));
-
-            Func<Task> func = async () => await _exporter.ExportHostMetricsAsync("http://hn1-sparkp.pk3tke12z5uejpo3re1mqa2wyf.fx.internal.cloudapp.net");
-
-            func.Should().NotThrow();
-            reportedCounter.Should().Be(25);
         }
     }
 }

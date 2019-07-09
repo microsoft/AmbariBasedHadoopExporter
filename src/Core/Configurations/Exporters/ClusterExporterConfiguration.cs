@@ -12,10 +12,5 @@ namespace Core.Configurations.Exporters
     {
         /// <inheritdoc />
         public override string UriEndpoint => BaseUri;
-
-        /// <summary>
-        /// Gets the Hosts endpoint.
-        /// </summary>
-        public string HostsEndpoint => $"{BaseUri}/hosts";
     }
 }

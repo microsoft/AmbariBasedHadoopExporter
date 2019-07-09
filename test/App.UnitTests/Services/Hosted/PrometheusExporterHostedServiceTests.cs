@@ -59,7 +59,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Adding invalid exporter
             var invalidExporter = new Mock<IExporter>();
-            invalidExporter.Setup(f => f.ExportMetricsAsync()).Throws(new Exception("Test exception"));
+            invalidExporter.Setup(f => f.ExportMetricsAsync(null)).Throws(new Exception("Test exception"));
             exporterEnumerator.Add(invalidExporter.Object);
             for (int i = 0; i < 5; i++)
             {
@@ -74,7 +74,7 @@ namespace App.UnitTests.Services.Hosted
 
             // Adding invalid aggregated exception
             var invalidAggregatedExporter = new Mock<IExporter>();
-            invalidAggregatedExporter.Setup(f => f.ExportMetricsAsync()).Throws(new AggregateException("Test exception"));
+            invalidAggregatedExporter.Setup(f => f.ExportMetricsAsync(null)).Throws(new AggregateException("Test exception"));
             exporterEnumerator.Add(invalidAggregatedExporter.Object);
             for (int i = 0; i < 5; i++)
             {

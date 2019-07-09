@@ -26,12 +26,14 @@ namespace Core.Extensions
             services.Configure<YarnNodeManagerExporterConfiguration>(baseConfiguration);
             services.Configure<HdfsDataNodeExporterConfiguration>(baseConfiguration);
             services.Configure<HdfsNameNodeExporterConfiguration>(baseConfiguration);
+            services.Configure<HostExporterConfiguration>(baseConfiguration);
             services.Configure<ClusterExporterConfiguration>(baseConfiguration);
 
             services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<YarnResourceManagerExporterConfiguration>>().Value);
             services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<YarnNodeManagerExporterConfiguration>>().Value);
             services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<HdfsDataNodeExporterConfiguration>>().Value);
             services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<HdfsNameNodeExporterConfiguration>>().Value);
+            services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<HostExporterConfiguration>>().Value);
             services.AddSingleton<IValidatableConfiguration>(resolver => resolver.GetRequiredService<IOptions<ClusterExporterConfiguration>>().Value);
         }
 

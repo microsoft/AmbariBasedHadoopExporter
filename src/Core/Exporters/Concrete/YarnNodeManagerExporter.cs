@@ -24,112 +24,86 @@ namespace Core.Exporters.Concrete
     /// <summary>
     /// Responsible for exporting YARN NodeManager metrics.
     /// </summary>
-    internal class YarnNodeManagerExporter : IExporter
+    internal class YarnNodeManagerExporter : BaseExporter
     {
-        private readonly IContentProvider _contentProvider;
-        private readonly IPrometheusUtils _prometheusUtils;
         private readonly YarnNodeManagerExporterConfiguration _exporterConfiguration;
-        private readonly ILogger<YarnNodeManagerExporter> _logger;
 
         public YarnNodeManagerExporter(
             IContentProvider contentProvider,
             IPrometheusUtils prometheusUtils,
             IOptions<YarnNodeManagerExporterConfiguration> exporterConfiguration,
             ILogger<YarnNodeManagerExporter> logger)
+            : base(contentProvider, prometheusUtils, exporterConfiguration.Value, typeof(NodeManagerComponent), logger)
         {
-            _contentProvider = contentProvider;
-            _prometheusUtils = prometheusUtils;
             _exporterConfiguration = exporterConfiguration.Value;
-            _logger = logger;
-            Collectors = new ConcurrentDictionary<string, Collector>();
         }
 
         /// <inheritdoc/>
-        public ConcurrentDictionary<string, Collector> Collectors { get; private set; }
-
-        /// <inheritdoc/>
-        public async Task ExportMetricsAsync()
+        protected override async Task ReportMetrics(object component)
         {
-            var content = string.Empty;
-            try
+            await Task.Factory.StartNew(() =>
             {
-                using (_logger.BeginScope(new Dictionary<string, object>() { { "Exporter", GetType().Name }, }))
+                var nodeManagerComponent = (NodeManagerComponent)component;
+
+                // Constructing labels
+                var labels = new Dictionary<string, string>()
                 {
-                    _logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
-                    var stopWatch = Stopwatch.StartNew();
+                    { "ClusterName", nodeManagerComponent.Info.ClusterName },
+                    { "Component", nodeManagerComponent.Info.ComponentName },
+                };
+                labels.TryAdd(_exporterConfiguration.DefaultLabels);
 
-                    content = await _contentProvider.GetResponseContentAsync(_exporterConfiguration.UriEndpoint);
-                    var component = JsonConvert.DeserializeObject<NodeManagerComponent>(content);
+                // General info
+                PrometheusUtils.ReportGauge(Collectors, "Info_StartTime", nodeManagerComponent.Info.StartTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_StartedCount", nodeManagerComponent.Info.StartedCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_TotalCount", nodeManagerComponent.Info.TotalCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Info_UnknownCount", nodeManagerComponent.Info.UnknownCount, labels);
 
-                    // Constructing labels
-                    var labels = new Dictionary<string, string>()
-                        {
-                            { "ClusterName", component.Info.ClusterName },
-                            { "Component", component.Info.ComponentName },
-                        };
-                    labels.TryAdd(_exporterConfiguration.DefaultLabels);
+                // Yarn related
+                PrometheusUtils.ReportGauge(Collectors, "AllocatedContainers", nodeManagerComponent.Metrics.YarnBase.AllocatedContainers, labels);
+                PrometheusUtils.ReportGauge(Collectors, "AllocatedGB", nodeManagerComponent.Metrics.YarnBase.AllocatedGB, labels);
+                PrometheusUtils.ReportGauge(Collectors, "AllocatedVCores", nodeManagerComponent.Metrics.YarnBase.AllocatedVCores, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersCompleted", nodeManagerComponent.Metrics.YarnBase.ContainersCompleted, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersFailed", nodeManagerComponent.Metrics.YarnBase.ContainersFailed, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersIniting", nodeManagerComponent.Metrics.YarnBase.ContainersIniting, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersKilled", nodeManagerComponent.Metrics.YarnBase.ContainersKilled, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersLaunched", nodeManagerComponent.Metrics.YarnBase.ContainersLaunched, labels);
+                PrometheusUtils.ReportGauge(Collectors, "ContainersRunning", nodeManagerComponent.Metrics.YarnBase.ContainersRunning, labels);
 
-                    // General info
-                    _prometheusUtils.ReportGauge(Collectors, "Info_StartTime", component.Info.StartTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_StartedCount", component.Info.StartedCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_TotalCount", component.Info.TotalCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Info_UnknownCount", component.Info.UnknownCount, labels);
+                // Cpu
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Idle", nodeManagerComponent.Metrics.Cpu.Idle, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Nice", nodeManagerComponent.Metrics.Cpu.Nice, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_System", nodeManagerComponent.Metrics.Cpu.System, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_User", nodeManagerComponent.Metrics.Cpu.User, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Cpu_Wio", nodeManagerComponent.Metrics.Cpu.Wio, labels);
 
-                    // Yarn related
-                    _prometheusUtils.ReportGauge(Collectors, "AllocatedContainers", component.Metrics.YarnBase.AllocatedContainers, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "AllocatedGB", component.Metrics.YarnBase.AllocatedGB, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "AllocatedVCores", component.Metrics.YarnBase.AllocatedVCores, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersCompleted", component.Metrics.YarnBase.ContainersCompleted, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersFailed", component.Metrics.YarnBase.ContainersFailed, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersIniting", component.Metrics.YarnBase.ContainersIniting, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersKilled", component.Metrics.YarnBase.ContainersKilled, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersLaunched", component.Metrics.YarnBase.ContainersLaunched, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "ContainersRunning", component.Metrics.YarnBase.ContainersRunning, labels);
+                // Disk
+                PrometheusUtils.ReportGauge(Collectors, "Disk_Free", nodeManagerComponent.Metrics.Disk.Free, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadBytes", nodeManagerComponent.Metrics.Disk.ReadBytes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadCount", nodeManagerComponent.Metrics.Disk.ReadCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_ReadTime", nodeManagerComponent.Metrics.Disk.ReadTime, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_Total", nodeManagerComponent.Metrics.Disk.Total, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteBytes", nodeManagerComponent.Metrics.Disk.WriteBytes, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteCount", nodeManagerComponent.Metrics.Disk.WriteCount, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Disk_WriteTime", nodeManagerComponent.Metrics.Disk.WriteTime, labels);
 
-                    // Cpu
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Idle", component.Metrics.Cpu.Idle, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Nice", component.Metrics.Cpu.Nice, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_System", component.Metrics.Cpu.System, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_User", component.Metrics.Cpu.User, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Cpu_Wio", component.Metrics.Cpu.Wio, labels);
+                // Memory
+                PrometheusUtils.ReportGauge(Collectors, "Memory_CachedKb", nodeManagerComponent.Metrics.Memory.CachedKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_FreeKb", nodeManagerComponent.Metrics.Memory.FreeKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_SharedKb", nodeManagerComponent.Metrics.Memory.SharedKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_SwapFreeKb", nodeManagerComponent.Metrics.Memory.SwapFreeKb, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Memory_TotalKb", nodeManagerComponent.Metrics.Memory.TotalKb, labels);
 
-                    // Disk
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_Free", component.Metrics.Disk.Free, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadBytes", component.Metrics.Disk.ReadBytes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadCount", component.Metrics.Disk.ReadCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_ReadTime", component.Metrics.Disk.ReadTime, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_Total", component.Metrics.Disk.Total, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteBytes", component.Metrics.Disk.WriteBytes, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteCount", component.Metrics.Disk.WriteCount, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Disk_WriteTime", component.Metrics.Disk.WriteTime, labels);
+                // Network
+                PrometheusUtils.ReportGauge(Collectors, "Network_BytesIn", nodeManagerComponent.Metrics.Network.BytesIn, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_BytesOut", nodeManagerComponent.Metrics.Network.BytesOut, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_PktsIn", nodeManagerComponent.Metrics.Network.PktsIn, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Network_PktsOut", nodeManagerComponent.Metrics.Network.PktsOut, labels);
 
-                    // Memory
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_CachedKb", component.Metrics.Memory.CachedKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_FreeKb", component.Metrics.Memory.FreeKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_SharedKb", component.Metrics.Memory.SharedKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_SwapFreeKb", component.Metrics.Memory.SwapFreeKb, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Memory_TotalKb", component.Metrics.Memory.TotalKb, labels);
-
-                    // Network
-                    _prometheusUtils.ReportGauge(Collectors, "Network_BytesIn", component.Metrics.Network.BytesIn, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_BytesOut", component.Metrics.Network.BytesOut, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_PktsIn", component.Metrics.Network.PktsIn, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Network_PktsOut", component.Metrics.Network.PktsOut, labels);
-
-                    // Process
-                    _prometheusUtils.ReportGauge(Collectors, "Process_Run", component.Metrics.Process.Run, labels);
-                    _prometheusUtils.ReportGauge(Collectors, "Process_Total", component.Metrics.Process.Total, labels);
-
-                    // Tracing
-                    stopWatch.Stop();
-                    _logger.LogInformation($"Runtime: {stopWatch.Elapsed}.");
-                }
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, $"{nameof(YarnNodeManagerExporter)}.{nameof(ExportMetricsAsync)}: Failed to export metrics. Content: {content}");
-                throw;
-            }
+                // Process
+                PrometheusUtils.ReportGauge(Collectors, "Process_Run", nodeManagerComponent.Metrics.Process.Run, labels);
+                PrometheusUtils.ReportGauge(Collectors, "Process_Total", nodeManagerComponent.Metrics.Process.Total, labels);
+            });
         }
     }
 }

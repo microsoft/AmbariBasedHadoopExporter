@@ -92,7 +92,7 @@ namespace App.Services.Hosted
         internal async Task RunExportersAsync()
         {
             var stopwatch = Stopwatch.StartNew();
-
+            var successfulRun = 0;
             try
             {
                 TotalScrapeActivations.Inc();
@@ -105,8 +105,8 @@ namespace App.Services.Hosted
                 }
 
                 await Task.WhenAll(tasks);
-                IsSuccessful.Set(1);
                 TotalSuccessfulScrapeActivations.Inc();
+                successfulRun = 1;
             }
             catch (AggregateException ae)
             {
@@ -115,21 +115,22 @@ namespace App.Services.Hosted
                     _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {innerException.Message}");
                 }
 
-                IsSuccessful.Set(0);
+                return;
             }
             catch (Exception e)
             {
                 _logger.LogError($"{nameof(RunExportersAsync)} failed. Message: {e.Message}");
-                IsSuccessful.Set(0);
+                return;
             }
             finally
             {
                 stopwatch.Stop();
                 _logger.LogInformation($"{nameof(RunExportersAsync)} took {stopwatch.Elapsed}.");
-
-                // Sending metrics
-                ScrapeTime.Observe(stopwatch.Elapsed.TotalSeconds);
+                IsSuccessful.Set(successfulRun);
             }
+
+            // Sending scrape time only if the operation was successful
+            ScrapeTime.Observe(stopwatch.Elapsed.TotalSeconds);
         }
     }
 }
