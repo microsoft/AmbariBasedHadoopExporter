@@ -26,7 +26,7 @@ namespace App.Services.Hosted
         internal readonly Counter TotalScrapeActivations;
         internal readonly Counter TotalSuccessfulScrapeActivations;
         internal readonly Gauge IsSuccessful;
-        internal readonly Histogram ScrapeTime;
+        internal readonly Summary ScrapeTime;
 
         // Private members
         private readonly IEnumerable<IExporter> _exporters;
@@ -57,10 +57,20 @@ namespace App.Services.Hosted
                 "is_successful_scrape",
                 "Indication to if the last scrape was successful",
                 new GaugeConfiguration() { SuppressInitialValue = true });
-            ScrapeTime = Metrics.CreateHistogram(
+            ScrapeTime = Metrics.CreateSummary(
                 "scrape_time",
                 "Total scraping time of the exporter",
-                new HistogramConfiguration() { SuppressInitialValue = true });
+                new SummaryConfiguration()
+                {
+                    SuppressInitialValue = true,
+                    Objectives = new[]
+                    {
+                        new QuantileEpsilonPair(0.5, 0.05),
+                        new QuantileEpsilonPair(0.9, 0.05),
+                        new QuantileEpsilonPair(0.95, 0.01),
+                        new QuantileEpsilonPair(0.99, 0.01),
+                    }
+                });
         }
 
         /// <inheritdoc/>
