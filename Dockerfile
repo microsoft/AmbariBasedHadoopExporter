@@ -30,5 +30,6 @@ RUN dotnet vstest test/*/bin/Release/*/*Tests.dll
 RUN dotnet publish src/App -c Release -o /app/out --no-restore
 
 FROM microsoft/dotnet:2.2-runtime
+WORKDIR /app
 COPY --from=build-env /app/out .
 ENTRYPOINT ["dotnet", "App.dll"]
