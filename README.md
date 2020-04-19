@@ -20,7 +20,7 @@ You can download an image from [this](https://cloud.docker.com/u/solotomer/repos
 
 
 ## Deploying to Kubernetes
-Every service requires settings file to run, an example of full settings file can be found [here](test\ComponentTests\appsettings.json). But, since we're using Kubernetes as our orchestrator, we can leverage  [helm](https://github.com/helm/charts) to inject those values during deployment as environment variables.<br>
+Every service requires settings file to run, an example of full settings file can be found [here](/test/ComponentTests/appsettings.json). But, since we're using Kubernetes as our orchestrator, we can leverage  [helm](https://github.com/helm/charts) to inject those values during deployment as environment variables.<br>
 
 ### Prerequisites
 Install [init-container](https://github.com/Hexadite/acs-keyvault-agent) in your cluster for Azure Key Vault integration. This is used to extract secrets in a secure way.
