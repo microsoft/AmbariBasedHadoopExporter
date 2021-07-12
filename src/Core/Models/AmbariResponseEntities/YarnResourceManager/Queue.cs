@@ -21,97 +21,97 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
         }
 
         [JsonProperty(PropertyName = "AMResourceLimitMB")]
-        public int AMResourceLimitMB { get; set; }
+        public long AMResourceLimitMB { get; set; }
 
         [JsonProperty(PropertyName = "AMResourceLimitVCores")]
-        public int AMResourceLimitVCores { get; set; }
+        public long AMResourceLimitVCores { get; set; }
 
         [JsonProperty(PropertyName = "ActiveApplications")]
-        public int ActiveApplications { get; set; }
+        public long ActiveApplications { get; set; }
 
         [JsonProperty(PropertyName = "ActiveUsers")]
-        public int ActiveUsers { get; set; }
+        public long ActiveUsers { get; set; }
 
         [JsonProperty(PropertyName = "AggregateContainersAllocated")]
-        public int AggregateContainersAllocated { get; set; }
+        public long AggregateContainersAllocated { get; set; }
 
         [JsonProperty(PropertyName = "AggregateContainersReleased")]
-        public int AggregateContainersReleased { get; set; }
+        public long AggregateContainersReleased { get; set; }
 
         [JsonProperty(PropertyName = "AllocatedContainers")]
-        public int AllocatedContainers { get; set; }
+        public long AllocatedContainers { get; set; }
 
         [JsonProperty(PropertyName = "AllocatedMB")]
-        public int AllocatedMB { get; set; }
+        public long AllocatedMB { get; set; }
 
         [JsonProperty(PropertyName = "AllocatedVCores")]
-        public int AllocatedVCores { get; set; }
+        public long AllocatedVCores { get; set; }
 
         [JsonProperty(PropertyName = "AppAttemptFirstContainerAllocationDelayAvgTime")]
         public double AppAttemptFirstContainerAllocationDelayAvgTime { get; set; }
 
         [JsonProperty(PropertyName = "AppAttemptFirstContainerAllocationDelayNumOps")]
-        public int AppAttemptFirstContainerAllocationDelayNumOps { get; set; }
+        public long AppAttemptFirstContainerAllocationDelayNumOps { get; set; }
 
         [JsonProperty(PropertyName = "AppsCompleted")]
-        public int AppsCompleted { get; set; }
+        public long AppsCompleted { get; set; }
 
         [JsonProperty(PropertyName = "AppsFailed")]
-        public int AppsFailed { get; set; }
+        public long AppsFailed { get; set; }
 
         [JsonProperty(PropertyName = "AppsKilled")]
-        public int AppsKilled { get; set; }
+        public long AppsKilled { get; set; }
 
         [JsonProperty(PropertyName = "AppsPending")]
-        public int AppsPending { get; set; }
+        public long AppsPending { get; set; }
 
         [JsonProperty(PropertyName = "AppsRunning")]
-        public int AppsRunning { get; set; }
+        public long AppsRunning { get; set; }
 
         [JsonProperty(PropertyName = "AppsSubmitted")]
-        public int AppsSubmitted { get; set; }
+        public long AppsSubmitted { get; set; }
 
         [JsonProperty(PropertyName = "AvailableMB")]
-        public int AvailableMB { get; set; }
+        public long AvailableMB { get; set; }
 
         [JsonProperty(PropertyName = "AvailableVCores")]
-        public int AvailableVCores { get; set; }
+        public long AvailableVCores { get; set; }
 
         [JsonProperty(PropertyName = "PendingContainers")]
-        public int PendingContainers { get; set; }
+        public long PendingContainers { get; set; }
 
         [JsonProperty(PropertyName = "PendingMB")]
-        public int PendingMB { get; set; }
+        public long PendingMB { get; set; }
 
         [JsonProperty(PropertyName = "PendingVCores")]
-        public int PendingVCores { get; set; }
+        public long PendingVCores { get; set; }
 
         [JsonProperty(PropertyName = "ReservedContainers")]
-        public int ReservedContainers { get; set; }
+        public long ReservedContainers { get; set; }
 
         [JsonProperty(PropertyName = "ReservedMB")]
-        public int ReservedMB { get; set; }
+        public long ReservedMB { get; set; }
 
         [JsonProperty(PropertyName = "ReservedVCores")]
-        public int ReservedVCores { get; set; }
+        public long ReservedVCores { get; set; }
 
         [JsonProperty(PropertyName = "UsedAMResourceMB")]
-        public int UsedAMResourceMB { get; set; }
+        public long UsedAMResourceMB { get; set; }
 
         [JsonProperty(PropertyName = "UsedAMResourceVCores")]
-        public int UsedAMResourceVCores { get; set; }
+        public long UsedAMResourceVCores { get; set; }
 
         [JsonProperty(PropertyName = "running_0")]
-        public int Running0 { get; set; }
+        public long Running0 { get; set; }
 
         [JsonProperty(PropertyName = "running_1440")]
-        public int Running1440 { get; set; }
+        public long Running1440 { get; set; }
 
         [JsonProperty(PropertyName = "running_300")]
-        public int Running300 { get; set; }
+        public long Running300 { get; set; }
 
         [JsonProperty(PropertyName = "running_60")]
-        public int Running60 { get; set; }
+        public long Running60 { get; set; }
 
         public string Name { get; private set; }
 

@@ -10,30 +10,30 @@ namespace Core.Models.AmbariResponseEntities.Cluster
     public class HealthReport
     {
         [JsonProperty(PropertyName = "Host/stale_config")]
-        public int HostsWithStaleConfig { get; set; }
+        public long HostsWithStaleConfig { get; set; }
 
         [JsonProperty(PropertyName = "Host/maintenance_state")]
-        public int HostsWithMaintenanceFlag { get; set; }
+        public long HostsWithMaintenanceFlag { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_state/HEALTHY")]
-        public int HostsStateHealthy { get; set; }
+        public long HostsStateHealthy { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_state/UNHEALTHY")]
-        public int HostsStateUnhealthy { get; set; }
+        public long HostsStateUnhealthy { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_state/HEARTBEAT_LOST")]
-        public int HeartbeatLost { get; set; }
+        public long HeartbeatLost { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_status/HEALTHY")]
-        public int HostsStatusHealthy { get; set; }
+        public long HostsStatusHealthy { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_status/UNHEALTHY")]
-        public int HostsStatusUnhealthy { get; set; }
+        public long HostsStatusUnhealthy { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_status/UNKNOWN")]
-        public int HostsStatusUnknown { get; set; }
+        public long HostsStatusUnknown { get; set; }
 
         [JsonProperty(PropertyName = "Host/host_status/ALERT")]
-        public int HostsStatusAlert { get; set; }
+        public long HostsStatusAlert { get; set; }
     }
 }

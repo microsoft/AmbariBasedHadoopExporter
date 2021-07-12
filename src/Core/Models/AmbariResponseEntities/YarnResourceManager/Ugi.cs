@@ -13,12 +13,12 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
         public double LoginFailure_avg_time { get; set; }
 
         [JsonProperty(PropertyName = "loginFailure_num_ops")]
-        public int LoginFailure_num_ops { get; set; }
+        public long LoginFailure_num_ops { get; set; }
 
         [JsonProperty(PropertyName = "loginSuccess_avg_time")]
         public double LoginSuccess_avg_time { get; set; }
 
         [JsonProperty(PropertyName = "loginSuccess_num_ops")]
-        public int LoginSuccess_num_ops { get; set; }
+        public long LoginSuccess_num_ops { get; set; }
     }
 }
