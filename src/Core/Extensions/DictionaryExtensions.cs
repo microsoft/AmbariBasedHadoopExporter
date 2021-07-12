@@ -24,7 +24,7 @@ namespace Core.Extensions
         {
             if (defaults != null)
             {
-                foreach (var(key, value) in defaults)
+                foreach (var (key, value) in defaults)
                 {
                     dictionary.Add(key, value);
                 }

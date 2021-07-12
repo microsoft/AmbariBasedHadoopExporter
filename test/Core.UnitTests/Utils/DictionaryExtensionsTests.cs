@@ -91,7 +91,8 @@ namespace Core.UnitTests.Utils
             {
                 if (shouldRunSuccessfully)
                 {
-                    throw e;
+                    System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e.InnerException).Throw();
+                    throw;
                 }
             }
         }

@@ -79,7 +79,9 @@ namespace App.Services.Hosted
             catch (Exception e)
             {
                 _logger.LogError(e, "HealthCheck failed.");
-                throw e;
+
+                System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(e.InnerException).Throw();
+                throw;
             }
         }
     }
