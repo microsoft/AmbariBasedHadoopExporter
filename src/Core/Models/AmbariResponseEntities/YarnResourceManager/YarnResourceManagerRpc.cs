@@ -10,39 +10,39 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
     public class YarnResourceManagerRpc
     {
         [JsonProperty(PropertyName = "NumOpenConnections")]
-        public int NumOpenConnections { get; set; }
+        public long NumOpenConnections { get; set; }
 
         [JsonProperty(PropertyName = "ReceivedBytes")]
-        public int ReceivedBytes { get; set; }
+        public long ReceivedBytes { get; set; }
 
         [JsonProperty(PropertyName = "RpcProcessingTime_avg_time")]
         public double RpcProcessingTime_avg_time { get; set; }
 
         [JsonProperty(PropertyName = "RpcProcessingTime_num_ops")]
-        public int RpcProcessingTime_num_ops { get; set; }
+        public long RpcProcessingTime_num_ops { get; set; }
 
         [JsonProperty(PropertyName = "RpcQueueTime_avg_time")]
         public double RpcQueueTime_avg_time { get; set; }
 
         [JsonProperty(PropertyName = "RpcQueueTime_num_ops")]
-        public int RpcQueueTime_num_ops { get; set; }
+        public long RpcQueueTime_num_ops { get; set; }
 
         [JsonProperty(PropertyName = "SentBytes")]
-        public int SentBytes { get; set; }
+        public long SentBytes { get; set; }
 
         [JsonProperty(PropertyName = "callQueueLen")]
-        public int CallQueueLen { get; set; }
+        public long CallQueueLen { get; set; }
 
         [JsonProperty(PropertyName = "rpcAuthenticationFailures")]
-        public int RpcAuthenticationFailures { get; set; }
+        public long RpcAuthenticationFailures { get; set; }
 
         [JsonProperty(PropertyName = "rpcAuthenticationSuccesses")]
-        public int RpcAuthenticationSuccesses { get; set; }
+        public long RpcAuthenticationSuccesses { get; set; }
 
         [JsonProperty(PropertyName = "rpcAuthorizationFailures")]
-        public int RpcAuthorizationFailures { get; set; }
+        public long RpcAuthorizationFailures { get; set; }
 
         [JsonProperty(PropertyName = "rpcAuthorizationSuccesses")]
-        public int RpcAuthorizationSuccesses { get; set; }
+        public long RpcAuthorizationSuccesses { get; set; }
     }
 }

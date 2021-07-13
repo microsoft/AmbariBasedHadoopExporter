@@ -10,10 +10,10 @@ namespace Core.Models.AmbariResponseEntities.HdfsNameNode
     public class HdfsNameNodeSystem
     {
         [JsonProperty("BlockCapacity")]
-        public int BlockCapacity { get; set; }
+        public long BlockCapacity { get; set; }
 
         [JsonProperty("BlocksTotal")]
-        public int BlocksTotal { get; set; }
+        public long BlocksTotal { get; set; }
 
         [JsonProperty("CapacityRemaining")]
         public long CapacityRemaining { get; set; }
@@ -28,75 +28,75 @@ namespace Core.Models.AmbariResponseEntities.HdfsNameNode
         public double CapacityTotalGB { get; set; }
 
         [JsonProperty("CapacityUsed")]
-        public int CapacityUsed { get; set; }
+        public long CapacityUsed { get; set; }
 
         [JsonProperty("CapacityUsedGB")]
         public double CapacityUsedGB { get; set; }
 
         [JsonProperty("CorruptBlocks")]
-        public int CorruptBlocks { get; set; }
+        public long CorruptBlocks { get; set; }
 
         [JsonProperty("ExcessBlocks")]
-        public int ExcessBlocks { get; set; }
+        public long ExcessBlocks { get; set; }
 
         [JsonProperty("ExpiredHeartbeats")]
-        public int ExpiredHeartbeats { get; set; }
+        public long ExpiredHeartbeats { get; set; }
 
         [JsonProperty("FilesTotal")]
-        public int FilesTotal { get; set; }
+        public long FilesTotal { get; set; }
 
         [JsonProperty("LastCheckpointTime")]
         public long LastCheckpointTime { get; set; }
 
         [JsonProperty("LastWrittenTransactionId")]
-        public int LastWrittenTransactionId { get; set; }
+        public long LastWrittenTransactionId { get; set; }
 
         [JsonProperty("MillisSinceLastLoadedEdits")]
-        public int MillisSinceLastLoadedEdits { get; set; }
+        public long MillisSinceLastLoadedEdits { get; set; }
 
         [JsonProperty("MissingBlocks")]
-        public int MissingBlocks { get; set; }
+        public long MissingBlocks { get; set; }
 
         [JsonProperty("MissingReplOneBlocks")]
-        public int MissingReplOneBlocks { get; set; }
+        public long MissingReplOneBlocks { get; set; }
 
         [JsonProperty("PendingDataNodeMessageCount")]
-        public int PendingDataNodeMessageCount { get; set; }
+        public long PendingDataNodeMessageCount { get; set; }
 
         [JsonProperty("PendingDeletionBlocks")]
-        public int PendingDeletionBlocks { get; set; }
+        public long PendingDeletionBlocks { get; set; }
 
         [JsonProperty("PendingReplicationBlocks")]
-        public int PendingReplicationBlocks { get; set; }
+        public long PendingReplicationBlocks { get; set; }
 
         [JsonProperty("PostponedMisreplicatedBlocks")]
-        public int PostponedMisreplicatedBlocks { get; set; }
+        public long PostponedMisreplicatedBlocks { get; set; }
 
         [JsonProperty("ScheduledReplicationBlocks")]
-        public int ScheduledReplicationBlocks { get; set; }
+        public long ScheduledReplicationBlocks { get; set; }
 
         [JsonProperty("Snapshots")]
-        public int Snapshots { get; set; }
+        public long Snapshots { get; set; }
 
         [JsonProperty("SnapshottableDirectories")]
-        public int SnapshottableDirectories { get; set; }
+        public long SnapshottableDirectories { get; set; }
 
         [JsonProperty("StaleDataNodes")]
-        public int StaleDataNodes { get; set; }
+        public long StaleDataNodes { get; set; }
 
         [JsonProperty("TotalFiles")]
-        public int TotalFiles { get; set; }
+        public long TotalFiles { get; set; }
 
         [JsonProperty("TotalLoad")]
-        public int TotalLoad { get; set; }
+        public long TotalLoad { get; set; }
 
         [JsonProperty("TransactionsSinceLastCheckpoint")]
-        public int TransactionsSinceLastCheckpoint { get; set; }
+        public long TransactionsSinceLastCheckpoint { get; set; }
 
         [JsonProperty("TransactionsSinceLastLogRoll")]
-        public int TransactionsSinceLastLogRoll { get; set; }
+        public long TransactionsSinceLastLogRoll { get; set; }
 
         [JsonProperty("UnderReplicatedBlocks")]
-        public int UnderReplicatedBlocks { get; set; }
+        public long UnderReplicatedBlocks { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Core.Models.AmbariResponseEntities.HdfsNameNode
     public class HdfsNameNodeRpcClient
     {
         [JsonProperty("NumOpenConnections")]
-        public int NumOpenConnections { get; set; }
+        public long NumOpenConnections { get; set; }
 
         [JsonProperty("ReceivedBytes")]
         public long ReceivedBytes { get; set; }
@@ -22,6 +22,6 @@ namespace Core.Models.AmbariResponseEntities.HdfsNameNode
         public double QueueTimeAvgTime { get; set; }
 
         [JsonProperty("SentBytes")]
-        public int SentBytes { get; set; }
+        public long SentBytes { get; set; }
     }
 }

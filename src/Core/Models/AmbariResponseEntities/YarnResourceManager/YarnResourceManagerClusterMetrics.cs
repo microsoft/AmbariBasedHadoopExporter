@@ -10,18 +10,18 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
     public class YarnResourceManagerClusterMetrics
     {
         [JsonProperty(PropertyName = "NumActiveNMs")]
-        public int NumActiveNMs { get; set; }
+        public long NumActiveNMs { get; set; }
 
         [JsonProperty(PropertyName = "NumDecommissionedNMs")]
-        public int NumDecommissionedNMs { get; set; }
+        public long NumDecommissionedNMs { get; set; }
 
         [JsonProperty(PropertyName = "NumLostNMs")]
-        public int NumLostNMs { get; set; }
+        public long NumLostNMs { get; set; }
 
         [JsonProperty(PropertyName = "NumRebootedNMs")]
-        public int NumRebootedNMs { get; set; }
+        public long NumRebootedNMs { get; set; }
 
         [JsonProperty(PropertyName = "NumUnhealthyNMs")]
-        public int NumUnhealthyNMs { get; set; }
+        public long NumUnhealthyNMs { get; set; }
     }
 }

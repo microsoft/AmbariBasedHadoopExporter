@@ -10,15 +10,15 @@ namespace Core.Models.AmbariResponseEntities.Cluster
     public class AlertsSummaryHosts
     {
         [JsonProperty(PropertyName = "CRITICAL")]
-        public int Critical { get; set; }
+        public long Critical { get; set; }
 
         [JsonProperty(PropertyName = "OK")]
-        public int Ok { get; set; }
+        public long Ok { get; set; }
 
         [JsonProperty(PropertyName = "UNKNOWN")]
-        public int Unknown { get; set; }
+        public long Unknown { get; set; }
 
         [JsonProperty(PropertyName = "WARNING")]
-        public int Warning { get; set; }
+        public long Warning { get; set; }
     }
 }

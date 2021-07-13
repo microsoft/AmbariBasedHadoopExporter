@@ -10,34 +10,34 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
     public class Jvm
     {
         [JsonProperty(PropertyName = "HeapMemoryMax")]
-        public int HeapMemoryMax { get; set; }
+        public long HeapMemoryMax { get; set; }
 
         [JsonProperty(PropertyName = "HeapMemoryUsed")]
-        public int HeapMemoryUsed { get; set; }
+        public long HeapMemoryUsed { get; set; }
 
         [JsonProperty(PropertyName = "NonHeapMemoryMax")]
-        public int NonHeapMemoryMax { get; set; }
+        public long NonHeapMemoryMax { get; set; }
 
         [JsonProperty(PropertyName = "NonHeapMemoryUsed")]
-        public int NonHeapMemoryUsed { get; set; }
+        public long NonHeapMemoryUsed { get; set; }
 
         [JsonProperty(PropertyName = "gcCount")]
-        public int GcCount { get; set; }
+        public long GcCount { get; set; }
 
         [JsonProperty(PropertyName = "gcTimeMillis")]
-        public int GcTimeMillis { get; set; }
+        public long GcTimeMillis { get; set; }
 
         [JsonProperty(PropertyName = "logError")]
-        public int LogError { get; set; }
+        public long LogError { get; set; }
 
         [JsonProperty(PropertyName = "logFatal")]
-        public int LogFatal { get; set; }
+        public long LogFatal { get; set; }
 
         [JsonProperty(PropertyName = "logInfo")]
-        public int LogInfo { get; set; }
+        public long LogInfo { get; set; }
 
         [JsonProperty(PropertyName = "logWarn")]
-        public int LogWarn { get; set; }
+        public long LogWarn { get; set; }
 
         [JsonProperty(PropertyName = "memHeapCommittedM")]
         public double MemHeapCommittedM { get; set; }
@@ -55,21 +55,21 @@ namespace Core.Models.AmbariResponseEntities.YarnResourceManager
         public double MemNonHeapUsedMB { get; set; }
 
         [JsonProperty(PropertyName = "threadsBlocked")]
-        public int ThreadsBlocked { get; set; }
+        public long ThreadsBlocked { get; set; }
 
         [JsonProperty(PropertyName = "threadsNew")]
-        public int ThreadsNew { get; set; }
+        public long ThreadsNew { get; set; }
 
         [JsonProperty(PropertyName = "threadsRunnable")]
-        public int ThreadsRunnable { get; set; }
+        public long ThreadsRunnable { get; set; }
 
         [JsonProperty(PropertyName = "threadsTerminated")]
-        public int ThreadsTerminated { get; set; }
+        public long ThreadsTerminated { get; set; }
 
         [JsonProperty(PropertyName = "threadsTimedWaiting")]
-        public int ThreadsTimedWaiting { get; set; }
+        public long ThreadsTimedWaiting { get; set; }
 
         [JsonProperty(PropertyName = "threadsWaiting")]
-        public int ThreadsWaiting { get; set; }
+        public long ThreadsWaiting { get; set; }
     }
 }
