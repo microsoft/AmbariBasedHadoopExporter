@@ -29,7 +29,7 @@ namespace App.UnitTests.Services.Hosted
 
             var configuration = new PrometheusExporterConfiguration()
             {
-                Port = 9561
+                Port = 9561,
             };
             _configurationOptions = new Mock<IOptions<PrometheusExporterConfiguration>>();
             _configurationOptions.Setup(f => f.Value).Returns(configuration);

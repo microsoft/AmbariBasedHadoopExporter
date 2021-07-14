@@ -45,7 +45,7 @@ namespace Core.Exporters.Concrete
 
             _exporterMetricsLabels = new Dictionary<string, string>()
             {
-                { "Exporter", $"{GetType().Name}" }
+                { "Exporter", $"{GetType().Name}" },
             };
             _exporterMetricsLabels.TryAdd(BaseConfiguration.DefaultLabels);
         }
@@ -69,7 +69,7 @@ namespace Core.Exporters.Concrete
                 {
                     Logger.LogInformation($"{nameof(ExportMetricsAsync)} Started.");
 
-                  content = await ContentProvider.GetResponseContentAsync(fullEndpointUrl);
+                    content = await ContentProvider.GetResponseContentAsync(fullEndpointUrl);
                     var component = JsonConvert.DeserializeObject(content, ComponentType);
                     await ReportMetrics(component);
                 }

@@ -30,7 +30,7 @@ namespace App.UnitTests.Services.Hosted
 
             var clusterExporterConfiguration = new ClusterExporterConfiguration
             {
-                AmbariServerUri = string.Empty
+                AmbariServerUri = string.Empty,
             };
             _clusterExporterConfiguration = new Mock<IOptions<ClusterExporterConfiguration>>();
             _clusterExporterConfiguration.Setup(f => f.Value).Returns(clusterExporterConfiguration);
@@ -45,7 +45,7 @@ namespace App.UnitTests.Services.Hosted
             var livenessConfiguration = new Mock<IOptions<LivenessConfiguration>>();
             livenessConfiguration.Setup(f => f.Value).Returns(new LivenessConfiguration
             {
-                LivenessFilePath = $"{Directory.GetCurrentDirectory()}/healthy"
+                LivenessFilePath = $"{Directory.GetCurrentDirectory()}/healthy",
             });
 
             var livenessHostedService = new LivenessHostedService(
